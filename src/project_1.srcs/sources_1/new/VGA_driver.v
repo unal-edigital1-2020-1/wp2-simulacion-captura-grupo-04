@@ -18,9 +18,9 @@
 module VGA_Driver640x480 (
 	input rst,
 	input clk, 				// 25MHz  para 60 hz de 640x480
-	input  [7:0] pixelIn, 	// entrada del valor de color  pixel 
+	input  [11:0] pixelIn, 	// entrada del valor de color  pixel 
 	
-	output  [7:0] pixelOut, // salida del valor pixel a la VGA 
+	output  [11:0] pixelOut, // salida del valor pixel a la VGA 
 	output  Hsync_n,		// señal de sincronización en horizontal negada
 	output  Vsync_n,		// señal de sincronización en vertical negada 
 	output  [9:0] posX, 	// posicion en horizontal del pixel siguiente
