@@ -55,8 +55,8 @@ module test_cam_TB;
 		.CAM_pwdn(CAM_pwdn), 
 		.CAM_reset(CAM_reset), 
 		.CAM_pclk(pclk), 
-		.CAM_vsync(CAM_vsync), 
 		.CAM_href(CAM_href), 
+		.CAM_vsync(CAM_vsync),
 		.CAM_px_data(CAM_px_data)
 	);
 	reg img_generate=0;
