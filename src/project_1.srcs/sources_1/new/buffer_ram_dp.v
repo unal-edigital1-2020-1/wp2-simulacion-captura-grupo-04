@@ -19,7 +19,7 @@
 module buffer_ram_dp#( 
 	parameter AW = 15, // Cantidad de bits  de la direccin 
 	parameter DW = 12, // cantidad de Bits de los datos 
-	parameter   imageFILE= "src/project_1.srcs/sources_1/new/imagen.men")
+	parameter   imageFILE= "C:/Users/FABIa/Documents/GitHub/wp2-simulacion-captura-grupo-04/src/project_1.srcs/sources_1/new/image.men")
 	(  
 	input  clk_w, 
 	input  [AW-1: 0] addr_in, 
@@ -52,6 +52,7 @@ end
 
 initial begin
 	$readmemh(imageFILE, ram);
+	ram[15'b1111_1111_1111_111] = 12'b0000_0000_0000;  
 end
 
 /*
