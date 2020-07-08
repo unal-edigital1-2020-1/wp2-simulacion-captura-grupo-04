@@ -4,7 +4,6 @@ Running: C:/Xilinx/Vivado/2019.2/bin/unwrapped/win64.o/xelab.exe -wto 1ef1be0939
 Using 2 slave threads.
 Starting static elaboration
 Pass Through NonSizing Optimizer
-WARNING: [VRFC 10-3091] actual bit length 15 differs from formal bit length 16 for port 'DP_RAM_addr_in' [C:/Users/FABIa/Documents/GitHub/wp2-simulacion-captura-grupo-04/src/project_1.srcs/sources_1/new/test_cam.v:129]
 Completed static elaboration
 Starting simulation data flow analysis
 WARNING: [XSIM 43-4099] "C:/Users/FABIa/Documents/GitHub/wp2-simulacion-captura-grupo-04/src/project_1.srcs/sources_1/new/VGA_driver.v" Line 18. Module VGA_Driver640x480_default doesn't have a timescale but at least one module in design has a timescale.

@@ -27,7 +27,7 @@ module captura_de_datos_downsampler(
 	input [7:0] CAM_px_data,
 
 	output reg [11:0] DP_RAM_data_in,
-	output reg [15:0] DP_RAM_addr_in,
+	output reg [14:0] DP_RAM_addr_in,
 	output reg DP_RAM_regW
 	//input btn
    );
@@ -37,27 +37,16 @@ module captura_de_datos_downsampler(
 	
 	always@(posedge PCLK)
 	begin
-		if(HREF & ~VSYNC & DP_RAM_addr_in != 19200)
-		begin			
-			color[0] = CAM_px_data[0];
-			color[1] = CAM_px_data[1];
-			color[2] = CAM_px_data[2];
-			color[3] = CAM_px_data[3];
-			color[4] = CAM_px_data[4];
-			color[5] = CAM_px_data[5];
-			color[6] = CAM_px_data[6];
-			color[7] = CAM_px_data[7];
-
-			
-			
+		if(HREF & ~VSYNC ) //& DP_RAM_addr_in != 32768
+		begin	
 			if (cont==0)
 			begin
-				DP_RAM_data_in <= {color[3:0],DP_RAM_data_in[7:0]};
+				DP_RAM_data_in <= {CAM_px_data[3:0],DP_RAM_data_in[7:0]};
 				DP_RAM_regW = 0;
 			end
 			else 
 			begin
-				DP_RAM_data_in <= {DP_RAM_data_in[11:8],color[7:0]};
+				DP_RAM_data_in <= {DP_RAM_data_in[11:8],CAM_px_data[7:0]};
 				DP_RAM_regW = 1;
 			end
 			cont = cont+1;	
@@ -70,7 +59,7 @@ module captura_de_datos_downsampler(
 		begin
 			DP_RAM_addr_in =DP_RAM_addr_in+1;
 		end
-		if(DP_RAM_addr_in==19200)
+		if(DP_RAM_addr_in==32768)
 			DP_RAM_addr_in = 0;
 			
 		
