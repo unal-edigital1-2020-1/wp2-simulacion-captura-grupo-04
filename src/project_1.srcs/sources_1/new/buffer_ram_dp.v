@@ -50,9 +50,9 @@ always @(posedge clk_r) begin
 end
 
 
-initial begin
-	$readmemh(imageFILE, ram);
-end
+//initial begin
+//	$readmemh(imageFILE, ram);
+//end
 
 /*
 always @(posedge clk_w) begin 

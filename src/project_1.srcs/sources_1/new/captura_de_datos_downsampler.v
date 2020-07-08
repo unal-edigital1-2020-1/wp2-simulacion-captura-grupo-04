@@ -24,14 +24,7 @@ module captura_de_datos_downsampler(
     input PCLK,
 	input HREF,
 	input VSYNC,
-	input D0,
-	input D1,
-	input D2,
-	input D3,
-	input D4,
-	input D5,
-	input D6,
-	input D7,
+	input [7:0] CAM_px_data,
 
 	output reg [11:0] DP_RAM_data_in,
 	output reg [15:0] DP_RAM_addr_in,
@@ -46,14 +39,14 @@ module captura_de_datos_downsampler(
 	begin
 		if(HREF & ~VSYNC & DP_RAM_addr_in != 19200)
 		begin			
-			color[0] = D0;
-			color[1] = D1;
-			color[2] = D2;
-			color[3] = D3;
-			color[4] = D4;
-			color[5] = D5;
-			color[6] = D6;
-			color[7] = D7;
+			color[0] = CAM_px_data[0];
+			color[1] = CAM_px_data[1];
+			color[2] = CAM_px_data[2];
+			color[3] = CAM_px_data[3];
+			color[4] = CAM_px_data[4];
+			color[5] = CAM_px_data[5];
+			color[6] = CAM_px_data[6];
+			color[7] = CAM_px_data[7];
 
 			
 			
@@ -77,9 +70,6 @@ module captura_de_datos_downsampler(
 		begin
 			DP_RAM_addr_in =DP_RAM_addr_in+1;
 		end
-		
-		
-		
 		if(DP_RAM_addr_in==19200)
 			DP_RAM_addr_in = 0;
 			

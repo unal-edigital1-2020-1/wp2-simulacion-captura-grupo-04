@@ -38,14 +38,8 @@ module test_cam(
 	input CAM_PCLK,				// Sennal PCLK de la camara
 	input CAM_HREF,				// Sennal HREF de la camara
 	input CAM_VSYNC,				// Sennal VSYNC de la camara
-	input CAM_D0,					// Bit 0 de los datos del pixel
-	input CAM_D1,					// Bit 1 de los datos del pixel
-	input CAM_D2,					// Bit 2 de los datos del pixel
-	input CAM_D3,					// Bit 3 de los datos del pixel
-	input CAM_D4,					// Bit 4 de los datos del pixel
-	input CAM_D5,					// Bit 5 de los datos del pixel
-	input CAM_D6,					// Bit 6 de los datos del pixel
-	input CAM_D7 					// Bit 7 de los datos del pixel
+	input [7:0] CAM_px_data     // Bit n de los datos del pixel
+
    );
 
 // TAMANNO DE ADQUISICION DE LA CAMARA 
@@ -113,29 +107,24 @@ assign CAM_reset = 0;
   utilizado para la camara , a partir de una frecuencia de 32 Mhz
 **************************************************************************** */
 assign clk100M =clk;   /// revisar esto con nestor
-clk_100MHZ_to_25M_24M(
+
+clk_100MHZ_to_25M_24M pll(
   .CLK_IN1(clk),
   .CLK_OUT1(clk25M),
   .CLK_OUT2(clk24M),
   .RESET(rst)
-  
+  //.LOCKED()
  );
 
 /* ****************************************************************************
 captura_datos_downsampler
 **************************************************************************** */
+
 captura_de_datos_downsampler Capture_Downsampler(
 	.PCLK(CAM_PCLK),
 	.HREF(CAM_HREF),
 	.VSYNC(CAM_VSYNC),
-	.D0(CAM_D0),
-	.D1(CAM_D1),
-	.D2(CAM_D2),
-	.D3(CAM_D3),
-	.D4(CAM_D4),
-	.D5(CAM_D5),
-	.D6(CAM_D6),
-	.D7(CAM_D7),
+	.CAM_px_data(CAM_px_data),
 	.DP_RAM_data_in(DP_RAM_data_in),
 	.DP_RAM_addr_in(DP_RAM_addr_in),
 	.DP_RAM_regW(DP_RAM_regW)

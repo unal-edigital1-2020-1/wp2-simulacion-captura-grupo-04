@@ -43,6 +43,8 @@ module test_cam_TB;
 	wire CAM_reset;
 
 	// Instantiate the Unit Under Test (UUT)
+
+
 	test_cam uut (
 		.clk(clk), 
 		.rst(rst), 
@@ -54,12 +56,12 @@ module test_cam_TB;
 		.CAM_xclk(CAM_xclk), 
 		.CAM_pwdn(CAM_pwdn), 
 		.CAM_reset(CAM_reset), 
-		.CAM_pclk(pclk), 
-		.CAM_href(CAM_href), 
-		.CAM_vsync(CAM_vsync),
+		.CAM_PCLK(pclk), 
+		.CAM_HREF(CAM_href), 
+		.CAM_VSYNC(CAM_vsync),
 		.CAM_px_data(CAM_px_data)
 	);
-	reg img_generate=0;
+	reg img_generate=1;
 	initial begin
 		// Initialize Inputs
 		clk = 0;
@@ -91,7 +93,7 @@ module test_cam_TB;
 	**************************************************************************/
 	/*simulación de contador de pixeles para  general Href y vsync*/
 	initial forever  begin
-	//	CAM_px_data=~CAM_px_data;
+	//CAM_px_data=~CAM_px_data;
 		@(posedge pclk) begin
 		if (img_generate==1) begin
 			line_cnt=line_cnt+1;
@@ -148,7 +150,7 @@ module test_cam_TB;
 	/* log para cargar de archivo*/
 	integer f;
 	initial begin
-      f = $fopen("test_vga.txt","w");
+      f = $fopen("test_vga_g4.txt","w");
    end
 	
 	reg clk_w =0;
@@ -157,7 +159,7 @@ module test_cam_TB;
 	/* ecsritura de log para cargar se cargados en https://ericeastwood.com/lab/vga-simulator/*/
 	initial forever begin
 	@(posedge clk_w)
-		$fwrite(f,"%0t ps: %b %b %b %b %b\n",$time,VGA_Hsync_n, VGA_Vsync_n, VGA_R[3:1],VGA_G[3:1],VGA_B[3:2]);
+		$fwrite(f,"%0t ps: %b %b %b %b %b\n",$time,VGA_Hsync_n, VGA_Vsync_n, VGA_R[3:0],VGA_G[3:0],VGA_B[3:0]);
 	end
 	
 endmodule
