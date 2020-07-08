@@ -19,7 +19,7 @@
 module buffer_ram_dp#( 
 	parameter AW = 15, // Cantidad de bits  de la direccin 
 	parameter DW = 12, // cantidad de Bits de los datos 
-	parameter   imageFILE= "src/image.men")
+	parameter   imageFILE= "src/project_1.srcs/sources_1/new/imagen.men")
 	(  
 	input  clk_w, 
 	input  [AW-1: 0] addr_in, 
@@ -50,9 +50,9 @@ always @(posedge clk_r) begin
 end
 
 
-//initial begin
-//	$readmemh(imageFILE, ram);
-//end
+initial begin
+	$readmemh(imageFILE, ram);
+end
 
 /*
 always @(posedge clk_w) begin 

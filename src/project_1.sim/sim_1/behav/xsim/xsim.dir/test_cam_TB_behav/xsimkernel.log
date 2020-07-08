@@ -2,3 +2,6 @@ Running: xsim.dir/test_cam_TB_behav/xsimk.exe -simmode gui -wdb test_cam_TB_beha
 Design successfully loaded
 Design Loading Memory Usage: 5772 KB (Peak: 5772 KB)
 Design Loading CPU Usage: 30 ms
+Simulation completed
+Simulation Memory Usage: 15056 KB (Peak: 15056 KB)
+Simulation CPU Usage: 200155 ms
