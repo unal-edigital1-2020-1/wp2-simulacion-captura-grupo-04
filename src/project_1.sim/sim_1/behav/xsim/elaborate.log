@@ -5,19 +5,4 @@ Using 2 slave threads.
 Starting static elaboration
 Pass Through NonSizing Optimizer
 Completed static elaboration
-Starting simulation data flow analysis
-WARNING: [XSIM 43-4099] "C:/Users/FABIa/Documents/GitHub/wp2-simulacion-captura-grupo-04/src/project_1.srcs/sources_1/new/VGA_driver.v" Line 18. Module VGA_Driver640x480_default doesn't have a timescale but at least one module in design has a timescale.
-Completed simulation data flow analysis
-Time Resolution for simulation is 1ps
-Compiling module unisims_ver.IBUF
-Compiling module unisims_ver.IBUFG
-Compiling module unisims_ver.MMCME2_ADV(CLKFBOUT_MULT_F=9.75,...
-Compiling module unisims_ver.BUFG
-Compiling module xil_defaultlib.clk_100MHZ_to_25M_24M
-Compiling module xil_defaultlib.captura_de_datos_downsampler
-Compiling module xil_defaultlib.buffer_ram_dp_default
-Compiling module xil_defaultlib.VGA_Driver640x480_default
-Compiling module xil_defaultlib.test_cam
-Compiling module xil_defaultlib.test_cam_TB
-Compiling module xil_defaultlib.glbl
-Built simulation snapshot test_cam_TB_behav
+INFO: [XSIM 43-4323] No Change in HDL. Linking previously generated obj files to create kernel
