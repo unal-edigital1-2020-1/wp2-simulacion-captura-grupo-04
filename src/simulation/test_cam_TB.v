@@ -46,6 +46,7 @@ module test_cam_TB;
 
 
 	test_cam uut (
+	    //inputs 
 		.clk(clk), 
 		.rst(rst), 
 		.VGA_Hsync_n(VGA_Hsync_n), 
@@ -53,6 +54,11 @@ module test_cam_TB;
 		.VGA_R(VGA_R), 
 		.VGA_G(VGA_G), 
 		.VGA_B(VGA_B), 
+		
+		
+		
+		
+		
 		.CAM_xclk(CAM_xclk), 
 		.CAM_pwdn(CAM_pwdn), 
 		.CAM_reset(CAM_reset), 
@@ -82,6 +88,9 @@ module test_cam_TB;
 	
 	reg [9:0]line_cnt=0;
 	reg [9:0]row_cnt=0;
+	reg [3:0] count = 0;
+	reg [15:0] color = 00000000;
+	reg [127:0] color_data = 128'b1110000000000000000111111000001111100000000000000001111110000011111000000000000000011111100000111110000000000000000111111000001111100000;
 	
 	parameter TAM_LINE=320;	// es 160x2 debido a que son dos pixeles de RGB
 	parameter TAM_ROW=120;
@@ -137,6 +146,22 @@ module test_cam_TB;
 		end
 		end
 	end
+	//SIMULACON CAMBIO DE COLORES BARRA
+	//Añadimos este ciclo para variar el color de CAM_
+	initial forever begin
+		@(negedge pclk) begin
+		if (img_generate==1 && CAM_href==1) begin
+			if(count==0) begin
+				color = color_data[127:112];
+				color_data = color_data*65536+color;
+			end
+			CAM_px_data = color[15:8];
+			color = color*256+CAM_px_data;
+			count=count+1;
+		end
+		end
+	end
+
 
 
 	/*************************************************************************

@@ -14,3 +14,4 @@ INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/FABIa/Documents/GitHub/wp2
 INFO: [VRFC 10-311] analyzing module test_cam
 INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/FABIa/Documents/GitHub/wp2-simulacion-captura-grupo-04/src/simulation/test_cam_TB.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module test_cam_TB
+WARNING: [VRFC 10-986] literal value truncated to fit in 128 bits [C:/Users/FABIa/Documents/GitHub/wp2-simulacion-captura-grupo-04/src/simulation/test_cam_TB.v:93]

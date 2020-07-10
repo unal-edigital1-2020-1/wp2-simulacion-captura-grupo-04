@@ -27,13 +27,13 @@ module captura_de_datos_downsampler(
 	input [7:0] CAM_px_data,
 
 	output reg [11:0] DP_RAM_data_in,
-	output reg [14:0] DP_RAM_addr_in,
+	output reg [14:0] DP_RAM_addr_in=0,
 	output reg DP_RAM_regW
 	//input btn
    );
 	
 	reg cont=1'b0;
-	reg [7:0] color;
+	
 	
 	always@(posedge PCLK)
 	begin
@@ -59,7 +59,7 @@ module captura_de_datos_downsampler(
 		begin
 			DP_RAM_addr_in =DP_RAM_addr_in+1;
 		end
-		if(DP_RAM_addr_in==32768)
+		if(DP_RAM_addr_in==19200)
 			DP_RAM_addr_in = 0;
 			
 		
