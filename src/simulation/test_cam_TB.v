@@ -43,7 +43,10 @@ module test_cam_TB;
 	wire CAM_reset;
 
 	// Instantiate the Unit Under Test (UUT)
-
+    wire [11:0] data_mem;
+	wire [14:0] DP_RAM_addr_in;
+	wire [11:0] DP_RAM_data_in;
+	wire [14:0] DP_RAM_addr_out;
 
 	test_cam uut (
 	    //inputs 
@@ -55,6 +58,10 @@ module test_cam_TB;
 		.VGA_G(VGA_G), 
 		.VGA_B(VGA_B), 
 		
+		.data_mem(data_mem),
+	   .DP_RAM_addr_in(DP_RAM_addr_in),
+	   .DP_RAM_data_in(DP_RAM_data_in),
+	   .DP_RAM_addr_out(DP_RAM_addr_out),
 		
 		
 		
@@ -67,7 +74,7 @@ module test_cam_TB;
 		.CAM_VSYNC(CAM_vsync),
 		.CAM_px_data(CAM_px_data)
 	);
-	reg img_generate=1;
+	reg img_generate=0;
 	initial begin
 		// Initialize Inputs
 		clk = 0;
@@ -75,11 +82,20 @@ module test_cam_TB;
 		pclk = 0;
 		CAM_vsync = 1;
 		CAM_href = 0;
+<<<<<<< HEAD
+		CAM_px_data = 8'b00000000;
+   	// Wait 100 ns for global reset to finish
+		#20;
+		rst = 0;
+		
+		 img_generate=1;
+=======
 		CAM_px_data = 8'b11100000;
    	// Wait 100 ns for global reset to finish
 		#20;
 		rst = 0;
 		#1000000 img_generate=1;
+>>>>>>> parent of d7a98c8... pll
 	end
 
 	always #0.5 clk  = ~clk;
@@ -98,9 +114,9 @@ module test_cam_TB;
 	parameter BLACK_TAM_ROW=4;
 	
 	/*************************************************************************
-			INICIO DE SIMULACION DE SEÑALES DE LA CAMARA 	
+			INICIO DE SIMULACION DE SEâ€”ALES DE LA CAMARA 	
 	**************************************************************************/
-	/*simulación de contador de pixeles para  general Href y vsync*/
+	/*simulaciÃ›n de contador de pixeles para  general Href y vsync*/
 	initial forever  begin
 	//CAM_px_data=~CAM_px_data;
 		@(posedge pclk) begin
@@ -117,7 +133,7 @@ module test_cam_TB;
 		end
 	end
 
-	/*simulación de la señal vsync generada por la camara*/	
+	/*simulaciÃ›n de la seÃ’al vsync generada por la camara*/	
 	initial forever  begin
 		@(posedge pclk) begin 
 		if (img_generate==1) begin
@@ -131,13 +147,14 @@ module test_cam_TB;
 		end
 	end
 	
-	/*simulación de la señal href generada por la camara*/	
+	/*simulaciÃ›n de la seÃ’al href generada por la camara*/	
 	initial forever  begin
 		@(negedge pclk) begin 
 		if (img_generate==1) begin
 		if (row_cnt>BLACK_TAM_ROW-1)begin
 			if (line_cnt==0)begin
 				CAM_href  = 1; 
+				CAM_px_data = ~ CAM_px_data;
 			end
 		end
 			if (line_cnt==TAM_LINE)begin
@@ -147,7 +164,7 @@ module test_cam_TB;
 		end
 	end
 	//SIMULACON CAMBIO DE COLORES BARRA
-	//Añadimos este ciclo para variar el color de CAM_
+	//AÃ’adimos este ciclo para variar el color de CAM_
 	initial forever begin
 		@(negedge pclk) begin
 		if (img_generate==1 && CAM_href==1) begin
@@ -165,7 +182,7 @@ module test_cam_TB;
 
 
 	/*************************************************************************
-			FIN SIMULACIÒN DE SEÑALES DE LA CAMARA 	
+			FIN SIMULACIâ€œN DE SEâ€”ALES DE LA CAMARA 	
 	**************************************************************************/
 	
 	/*************************************************************************
