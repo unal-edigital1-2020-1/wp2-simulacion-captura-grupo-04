@@ -1,0 +1,161 @@
+/*
+
+Xilinx Vivado v2019.2 (64-bit) [Major: 2019, Minor: 2]
+SW Build: 2708876 on Wed Nov  6 21:40:23 MST 2019
+IP Build: 2700528 on Thu Nov  7 00:09:20 MST 2019
+
+Process ID (PID): 16092
+License: Customer
+
+Current time: 	Mon Jul 13 12:27:42 COT 2020
+Time zone: 	Colombia Standard Time (America/Bogota)
+
+OS: Windows 10
+OS Version: 10.0
+OS Architecture: amd64
+Available processors (cores): 8
+
+Screen size: 1920x1080
+Screen resolution (DPI): 125
+Available screens: 1
+Available disk space: 1,264 GB
+Default font: family=Segoe UI,name=Segoe UI,style=plain,size=15
+
+Java version: 	9.0.4 64-bit
+Java home: 	C:/Xilinx/Vivado/2019.2/tps/win64/jre9.0.4
+Java executable location: 	C:/Xilinx/Vivado/2019.2/tps/win64/jre9.0.4/bin/java.exe
+Java initial memory (-Xms): 	128 MB
+Java maximum memory (-Xmx):	 3 GB
+
+
+User name: 	FABIa
+User home directory: C:/Users/FABIa
+User working directory: C:/Users/FABIa/Documents/GitHub/Proyecto_Final_Digital/wp2-simulacion-captura-grupo-04/src
+User country: 	CO
+User language: 	es
+User locale: 	es_CO
+
+RDI_BASEROOT: C:/Xilinx/Vivado
+HDI_APPROOT: C:/Xilinx/Vivado/2019.2
+RDI_DATADIR: C:/Xilinx/Vivado/2019.2/data
+RDI_BINDIR: C:/Xilinx/Vivado/2019.2/bin
+
+Vivado preferences file location: C:/Users/FABIa/AppData/Roaming/Xilinx/Vivado/2019.2/vivado.xml
+Vivado preferences directory: C:/Users/FABIa/AppData/Roaming/Xilinx/Vivado/2019.2/
+Vivado layouts directory: C:/Users/FABIa/AppData/Roaming/Xilinx/Vivado/2019.2/layouts
+PlanAhead jar file location: 	C:/Xilinx/Vivado/2019.2/lib/classes/planAhead.jar
+Vivado log file location: 	C:/Users/FABIa/Documents/GitHub/Proyecto_Final_Digital/wp2-simulacion-captura-grupo-04/src/vivado.log
+Vivado journal file location: 	C:/Users/FABIa/Documents/GitHub/Proyecto_Final_Digital/wp2-simulacion-captura-grupo-04/src/vivado.jou
+Engine tmp dir: 	C:/Users/FABIa/Documents/GitHub/Proyecto_Final_Digital/wp2-simulacion-captura-grupo-04/src/.Xil/Vivado-16092-LAPTOP-TPEHSKJD
+
+Xilinx Environment Variables
+----------------------------
+XILINX: C:/Xilinx/Vivado/2019.2/ids_lite/ISE
+XILINX_DSP: C:/Xilinx/Vivado/2019.2/ids_lite/ISE
+XILINX_PLANAHEAD: C:/Xilinx/Vivado/2019.2
+XILINX_VIVADO: C:/Xilinx/Vivado/2019.2
+XILINX_VIVADO_HLS: C:/Xilinx/Vivado/2019.2
+
+
+GUI allocated memory:	192 MB
+GUI max memory:		3,072 MB
+Engine allocated memory: 637 MB
+
+Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
+
+*/
+
+// TclEventType: START_GUI
+// Tcl Message: start_gui 
+// TclEventType: PROJECT_OPEN_DIALOG
+// bB (cr):  Open Project : addNotify
+// Opening Vivado Project: C:\Users\FABIa\Documents\GitHub\Proyecto_Final_Digital\wp2-simulacion-captura-grupo-04\src\project_1.xpr. Version: Vivado v2019.2 
+// WARNING: HEventQueue.dispatchEvent() is taking  1067 ms.
+// TclEventType: DEBUG_PROBE_SET_CHANGE
+// Tcl Message: open_project C:/Users/FABIa/Documents/GitHub/Proyecto_Final_Digital/wp2-simulacion-captura-grupo-04/src/project_1.xpr 
+// Tcl Message: INFO: [ProjectBase 1-489] The host OS only allows 260 characters in a normal path. The project is stored in a path with more than 80 characters. If you experience issues with IP, Block Designs, or files not being found, please consider moving the project to a location with a shorter path. Alternately consider using the OS subst command to map part of the path to a drive letter. Current project path is 'C:/Users/FABIa/Documents/GitHub/Proyecto_Final_Digital/wp2-simulacion-captura-grupo-04/src' 
+// TclEventType: MSGMGR_MOVEMSG
+// TclEventType: FILE_SET_NEW
+// TclEventType: RUN_CURRENT
+// TclEventType: PROJECT_DASHBOARD_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_NEW
+// Tcl Message: open_project C:/Users/FABIa/Documents/GitHub/Proyecto_Final_Digital/wp2-simulacion-captura-grupo-04/src/project_1.xpr 
+// Tcl Message: INFO: [ProjectBase 1-489] The host OS only allows 260 characters in a normal path. The project is stored in a path with more than 80 characters. If you experience issues with IP, Block Designs, or files not being found, please consider moving the project to a location with a shorter path. Alternately consider using the OS subst command to map part of the path to a drive letter. Current project path is 'C:/Users/FABIa/Documents/GitHub/Proyecto_Final_Digital/wp2-simulacion-captura-grupo-04/src' INFO: [Project 1-313] Project file moved from 'C:/Users/FABIa/Documents/GitHub/wp2-simulacion-captura-grupo-04/src' since last save. 
+// Tcl Message: Scanning sources... Finished scanning sources 
+// Tcl Message: INFO: [IP_Flow 19-234] Refreshing IP repositories INFO: [IP_Flow 19-1704] No user IP repositories specified 
+// HMemoryUtils.trashcanNow. Engine heap size: 646 MB. GUI used memory: 50 MB. Current time: 7/13/20, 12:27:45 PM COT
+// TclEventType: PROJECT_NEW
+// [GUI Memory]: 60 MB (+59982kb) [00:00:15]
+// [Engine Memory]: 646 MB (+526219kb) [00:00:15]
+// [GUI Memory]: 75 MB (+13107kb) [00:00:16]
+// [GUI Memory]: 97 MB (+19105kb) [00:00:16]
+// [GUI Memory]: 104 MB (+2608kb) [00:00:18]
+// WARNING: HEventQueue.dispatchEvent() is taking  4743 ms.
+// Tcl Message: INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'C:/Xilinx/Vivado/2019.2/data/ip'. 
+// Project name: project_1; location: C:/Users/FABIa/Documents/GitHub/Proyecto_Final_Digital/wp2-simulacion-captura-grupo-04/src; part: xc7a100tcsg324-1
+// Tcl Message: open_project: Time (s): cpu = 00:00:12 ; elapsed = 00:00:11 . Memory (MB): peak = 692.453 ; gain = 20.773 
+dismissDialog("Open Project"); // bB (cr)
+// a (cr): Critical Messages: addNotify
+// [Engine Memory]: 682 MB (+3235kb) [00:00:24]
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Tcl Message: update_compile_order -fileset sources_1 
+// Elapsed time: 14 seconds
+selectButton(PAResourceAtoD.CmdMsgDialog_OK, "OK"); // f (a)
+dismissDialog("Critical Messages"); // a (cr)
+expandTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, test_cam (test_cam.v)]", 2); // B (F, cr)
+// Elapsed time: 54 seconds
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, test_cam (test_cam.v), pll : xil_defaultlib.clk_100MHZ_to_25M_24M]", 3, false); // B (F, cr)
+// Elapsed time: 17 seconds
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, test_cam (test_cam.v), pll : xil_defaultlib.clk_100MHZ_to_25M_24M]", 3, false, false, false, false, true, false); // B (F, cr) - Popup Trigger
+selectMenu(PAResourceCommand.PACommandNames_AUTO_UPDATE_HIER, "Hierarchy Update"); // af (ao, cr)
+selectMenu(PAResourceCommand.PACommandNames_AUTO_UPDATE_HIER, "Hierarchy Update"); // af (ao, cr)
+selectMenu(PAResourceQtoS.SrcMenu_IP_HIERARCHY, "IP Hierarchy"); // af (ao, cr)
+// [GUI Memory]: 113 MB (+3077kb) [00:01:59]
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, test_cam (test_cam.v), pll : xil_defaultlib.clk_100MHZ_to_25M_24M]", 3, false); // B (F, cr)
+// Elapsed time: 27 seconds
+selectTree(PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, Project Manager, Add Sources]", 2, false); // u (O, cr)
+// Run Command: PAResourceCommand.PACommandNames_ADD_SOURCES
+// c (cr): Add Sources: addNotify
+selectButton("NEXT", "Next >"); // JButton (j, c)
+selectButton(PAResourceQtoS.SrcChooserPanel_ADD_HDL_AND_NETLIST_FILES_TO_YOUR_PROJECT, "Add Files"); // a (E, c)
+// HMemoryUtils.trashcanNow. Engine heap size: 693 MB. GUI used memory: 57 MB. Current time: 7/13/20, 12:30:20 PM COT
+// Elapsed time: 13 seconds
+setFileChooser("C:/Users/FABIa/Documents/GitHub/wp2-simulacion-captura-grupo-04/src/project_1.srcs/sources_1/new/clk_100MHZ_to_25M_24M.v");
+selectButton("FINISH", "Finish"); // JButton (j, c)
+// 'h' command handler elapsed time: 28 seconds
+dismissDialog("Add Sources"); // c (cr)
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Tcl Message: add_files -norecurse C:/Users/FABIa/Documents/GitHub/wp2-simulacion-captura-grupo-04/src/project_1.srcs/sources_1/new/clk_100MHZ_to_25M_24M.v 
+// TclEventType: FILE_SET_CHANGE
+// Tcl Message: update_compile_order -fileset sources_1 
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, test_cam (test_cam.v), pll : clk_100MHZ_to_25M_24M (clk_100MHZ_to_25M_24M.v)]", 3, false); // B (F, cr)
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, test_cam (test_cam.v), pll : clk_100MHZ_to_25M_24M (clk_100MHZ_to_25M_24M.v)]", 3, false, false, false, false, true, false); // B (F, cr) - Popup Trigger
+selectMenuItem(RDIResourceCommand.RDICommands_DELETE, "Remove File from Project..."); // ai (ao, cr)
+// Run Command: RDIResourceCommand.RDICommands_DELETE
+// aE (cr): Remove Sources: addNotify
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a (aE)
+dismissDialog("Remove Sources"); // aE (cr)
+// aE (cr): Remove Sources: addNotify
+// bB (aE):  Remove Sources : addNotify
+// Tcl Message: export_ip_user_files -of_objects  [get_files C:/Users/FABIa/Documents/GitHub/wp2-simulacion-captura-grupo-04/src/project_1.srcs/sources_1/new/clk_100MHZ_to_25M_24M.v] -no_script -reset -force -quiet 
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Tcl Message: remove_files  C:/Users/FABIa/Documents/GitHub/wp2-simulacion-captura-grupo-04/src/project_1.srcs/sources_1/new/clk_100MHZ_to_25M_24M.v 
+dismissDialog("Remove Sources"); // bB (aE)
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, test_cam (test_cam.v), pll : clk_100MHZ_to_25M_24M (clk_100MHZ_to_25M_24M.v)]", 3, false, false, false, false, true, false); // B (F, cr) - Popup Trigger
+selectMenuItem(PAResourceCommand.PACommandNames_SRC_REPLACE_FILE, "Replace File..."); // ai (ao, cr)
+// Run Command: PAResourceCommand.PACommandNames_SRC_REPLACE_FILE

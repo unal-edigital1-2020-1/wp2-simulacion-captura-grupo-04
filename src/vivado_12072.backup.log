@@ -1,0 +1,21 @@
+#-----------------------------------------------------------
+# Vivado v2019.2 (64-bit)
+# SW Build 2708876 on Wed Nov  6 21:40:23 MST 2019
+# IP Build 2700528 on Thu Nov  7 00:09:20 MST 2019
+# Start of session at: Wed Jul  1 09:44:03 2020
+# Process ID: 12072
+# Current directory: C:/Users/FABIa/Documents/GitHub/wp2-simulacion-captura-grupo-04/src
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent12180 C:\Users\FABIa\Documents\GitHub\wp2-simulacion-captura-grupo-04\src\project_1.xpr
+# Log file: C:/Users/FABIa/Documents/GitHub/wp2-simulacion-captura-grupo-04/src/vivado.log
+# Journal file: C:/Users/FABIa/Documents/GitHub/wp2-simulacion-captura-grupo-04/src\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project C:/Users/FABIa/Documents/GitHub/wp2-simulacion-captura-grupo-04/src/project_1.xpr
+Scanning sources...
+Finished scanning sources
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'C:/Xilinx/Vivado/2019.2/data/ip'.
+update_compile_order -fileset sources_1
+exit
+INFO: [Common 17-206] Exiting Vivado at Wed Jul  1 09:46:25 2020...
