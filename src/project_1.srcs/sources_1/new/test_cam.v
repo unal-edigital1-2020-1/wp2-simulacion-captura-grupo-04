@@ -176,7 +176,7 @@ always @ (VGA_posX, VGA_posY) begin
 			//DP_RAM_addr_out=CAM_SCREEN_X*CAM_SCREEN_Y;
 			DP_RAM_addr_out=15'b1111_1111_1111_111;
 		else
-			DP_RAM_addr_out=VGA_posX+(VGA_posY*CAM_SCREEN_Y);
+			DP_RAM_addr_out=VGA_posX+(VGA_posY*CAM_SCREEN_X);
 end
 
 endmodule
