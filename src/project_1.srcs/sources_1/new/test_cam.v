@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+`timescale 10ns / 1ns
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
 // Engineer: 
@@ -30,6 +30,12 @@ module test_cam(
     output wire [3:0] VGA_G,  // 4-bit VGA green output
     output wire [3:0] VGA_B,  // 4-bit VGA blue output
 	
+	
+	
+	output wire [11:0] data_mem,
+	output wire [14:0]  DP_RAM_addr_in,
+	output wire [11:0] DP_RAM_data_in,
+	output reg [14:0] DP_RAM_addr_out,
 	//CAMARA input/output
 	
 	output wire CAM_xclk,		// System  clock imput
@@ -49,15 +55,12 @@ parameter CAM_SCREEN_Y = 120; //120
 localparam AW = 15; // LOG2(CAM_SCREEN_X*CAM_SCREEN_Y)
 localparam DW = 12;
 
-//// El color es RGB 332
-//localparam RED_VGA =   8'b11100000;
-//localparam GREEN_VGA = 8'b00011100;
-//localparam BLUE_VGA =  8'b00000011;
+
 
 // El color es RGB 444
-localparam RED_VGA =   12'b111100000000;
-localparam GREEN_VGA = 12'b000011110000;
-localparam BLUE_VGA =  12'b000000001111;
+//localparam RED_VGA =   12'b111100000000;
+//localparam GREEN_VGA = 12'b000011110000;
+//localparam BLUE_VGA =  12'b000000001111;
 // Clk 
 wire clk100M;
 wire clk25M;
@@ -65,18 +68,17 @@ wire clk24M;
 
 // Conexion dual por ram
 
-wire [AW-1: 0] DP_RAM_addr_in;  
-wire [DW-1: 0] DP_RAM_data_in;
+
 wire DP_RAM_regW;
 
-reg  [AW-1: 0] DP_RAM_addr_out;  
+
 	
 // Conexion VGA Driver
-wire [DW-1:0]data_mem;	   // Salida de dp_ram al driver VGA
+
 //wire [DW-1:0]data_RGB332;  // salida del driver VGA al puerto
 wire [DW-1:0]data_RGB444;  // salida del driver VGA al puerto
 wire [9:0]VGA_posX;		   // Determinar la pos de memoria que viene del VGA
-wire [8:0]VGA_posY;		   // Determinar la pos de memoria que viene del VGA
+wire [9:0]VGA_posY;		   // Determinar la pos de memoria que viene del VGA
 
 
 /* ****************************************************************************
@@ -170,10 +172,11 @@ VGA si la imagen de la camara es menor que el display VGA, los pixeles
 adicionales seran iguales al color del ultimo pixel de memoria 
 **************************************************************************** */
 always @ (VGA_posX, VGA_posY) begin
-		if ((VGA_posX>CAM_SCREEN_X-1) || (VGA_posY>CAM_SCREEN_Y-1))
-			DP_RAM_addr_out=CAM_SCREEN_X*CAM_SCREEN_Y;
+		if ((VGA_posX>CAM_SCREEN_X-1) |(VGA_posY>CAM_SCREEN_Y-1))
+			//DP_RAM_addr_out=CAM_SCREEN_X*CAM_SCREEN_Y;
+			DP_RAM_addr_out=15'b1111_1111_1111_111;
 		else
-			DP_RAM_addr_out=VGA_posX+VGA_posY*CAM_SCREEN_Y;
+			DP_RAM_addr_out=VGA_posX+(VGA_posY*CAM_SCREEN_Y);
 end
 
 endmodule
