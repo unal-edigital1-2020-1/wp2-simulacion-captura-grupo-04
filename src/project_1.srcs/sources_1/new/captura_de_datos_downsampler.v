@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+`timescale 10ns / 1ns	
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
 // Engineer: 
@@ -32,7 +32,7 @@ module captura_de_datos_downsampler(
 	//input btn
    );
 	
-	reg cont=1'b0;
+	reg [1:0]cont=1'b0;
 	
 	
 	always@(posedge PCLK)
@@ -59,9 +59,10 @@ module captura_de_datos_downsampler(
 		begin
 			DP_RAM_addr_in =DP_RAM_addr_in+1;
 		end
-		if(DP_RAM_addr_in==19200)
+		if(DP_RAM_addr_in==19199)
+		begin
 			DP_RAM_addr_in = 0;
-			
+		end	
 		
 	end
 	
