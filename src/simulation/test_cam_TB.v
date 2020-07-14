@@ -58,7 +58,7 @@ module test_cam_TB;
 		.VGA_G(VGA_G), 
 		.VGA_B(VGA_B), 
 		
-		.data_mem(data_mem),
+	   .data_mem(data_mem),
 	   .DP_RAM_addr_in(DP_RAM_addr_in),
 	   .DP_RAM_data_in(DP_RAM_data_in),
 	   .DP_RAM_addr_out(DP_RAM_addr_out),
@@ -82,20 +82,15 @@ module test_cam_TB;
 		pclk = 0;
 		CAM_vsync = 1;
 		CAM_href = 0;
-<<<<<<< HEAD
-		CAM_px_data = 8'b00000000;
+
+		CAM_px_data = 8'b00001111;
    	// Wait 100 ns for global reset to finish
 		#20;
 		rst = 0;
 		
 		 img_generate=1;
-=======
-		CAM_px_data = 8'b11100000;
-   	// Wait 100 ns for global reset to finish
-		#20;
-		rst = 0;
-		#1000000 img_generate=1;
->>>>>>> parent of d7a98c8... pll
+
+		
 	end
 
 	always #0.5 clk  = ~clk;
@@ -104,9 +99,6 @@ module test_cam_TB;
 	
 	reg [9:0]line_cnt=0;
 	reg [9:0]row_cnt=0;
-	reg [3:0] count = 0;
-	reg [15:0] color = 00000000;
-	reg [127:0] color_data = 128'b1110000000000000000111111000001111100000000000000001111110000011111000000000000000011111100000111110000000000000000111111000001111100000;
 	
 	parameter TAM_LINE=320;	// es 160x2 debido a que son dos pixeles de RGB
 	parameter TAM_ROW=120;
@@ -127,6 +119,7 @@ module test_cam_TB;
 				row_cnt=row_cnt+1;
 				if (row_cnt>TAM_ROW-1+BLACK_TAM_ROW) begin
 					row_cnt=0;
+					CAM_px_data = ~ CAM_px_data;
 				end
 			end
 		end
@@ -139,9 +132,12 @@ module test_cam_TB;
 		if (img_generate==1) begin
 			if (row_cnt==0)begin
 				CAM_vsync  = 1;
+				
 			end 
 			if (row_cnt==BLACK_TAM_ROW/2)begin
 				CAM_vsync  = 0;
+				
+				
 			end
 		end
 		end
@@ -154,7 +150,7 @@ module test_cam_TB;
 		if (row_cnt>BLACK_TAM_ROW-1)begin
 			if (line_cnt==0)begin
 				CAM_href  = 1; 
-				CAM_px_data = ~ CAM_px_data;
+				
 			end
 		end
 			if (line_cnt==TAM_LINE)begin
@@ -163,21 +159,8 @@ module test_cam_TB;
 		end
 		end
 	end
-	//SIMULACON CAMBIO DE COLORES BARRA
-	//AÒadimos este ciclo para variar el color de CAM_
-	initial forever begin
-		@(negedge pclk) begin
-		if (img_generate==1 && CAM_href==1) begin
-			if(count==0) begin
-				color = color_data[127:112];
-				color_data = color_data*65536+color;
-			end
-			CAM_px_data = color[15:8];
-			color = color*256+CAM_px_data;
-			count=count+1;
-		end
-		end
-	end
+	
+	
 
 
 

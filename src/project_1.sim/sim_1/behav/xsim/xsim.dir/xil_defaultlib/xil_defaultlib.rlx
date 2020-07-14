@@ -2,10 +2,10 @@
 2019.2
 Nov  6 2019
 21:57:16
-C:/Users/FABIa/Documents/GitHub/wp2-simulacion-captura-grupo-04/src/project_1.sim/sim_1/behav/xsim/glbl.v,1573089660,verilog,,,,glbl,,,,,,,,
-C:/Users/FABIa/Documents/GitHub/wp2-simulacion-captura-grupo-04/src/project_1.srcs/sources_1/new/VGA_driver.v,1594420516,verilog,,C:/Users/FABIa/Documents/GitHub/wp2-simulacion-captura-grupo-04/src/project_1.srcs/sources_1/new/buffer_ram_dp.v,,VGA_Driver640x480,,,,,,,,
-C:/Users/FABIa/Documents/GitHub/wp2-simulacion-captura-grupo-04/src/project_1.srcs/sources_1/new/buffer_ram_dp.v,1594247512,verilog,,C:/Users/FABIa/Documents/GitHub/wp2-simulacion-captura-grupo-04/src/project_1.srcs/sources_1/new/captura_de_datos_downsampler.v,,buffer_ram_dp,,,,,,,,
-C:/Users/FABIa/Documents/GitHub/wp2-simulacion-captura-grupo-04/src/project_1.srcs/sources_1/new/captura_de_datos_downsampler.v,1594422514,verilog,,C:/Users/FABIa/Downloads/clk_100MHZ_to_25M_24M.v,,captura_de_datos_downsampler,,,,,,,,
-C:/Users/FABIa/Documents/GitHub/wp2-simulacion-captura-grupo-04/src/project_1.srcs/sources_1/new/test_cam.v,1594139872,verilog,,C:/Users/FABIa/Documents/GitHub/wp2-simulacion-captura-grupo-04/src/simulation/test_cam_TB.v,,test_cam,,,,,,,,
-C:/Users/FABIa/Documents/GitHub/wp2-simulacion-captura-grupo-04/src/simulation/test_cam_TB.v,1594421631,verilog,,,,test_cam_TB,,,,,,,,
-C:/Users/FABIa/Downloads/clk_100MHZ_to_25M_24M.v,1594139564,verilog,,C:/Users/FABIa/Documents/GitHub/wp2-simulacion-captura-grupo-04/src/project_1.srcs/sources_1/new/test_cam.v,,clk_100MHZ_to_25M_24M,,,,,,,,
+C:/Users/FABIa/Documents/GitHub/Proyecto_Final_Digital/wp2-simulacion-captura-grupo-04/src/project_1.sim/sim_1/behav/xsim/glbl.v,1594661092,verilog,,,,glbl,,,,,,,,
+C:/Users/FABIa/Documents/GitHub/Proyecto_Final_Digital/wp2-simulacion-captura-grupo-04/src/project_1.srcs/sources_1/new/PLL/clk_100MHZ_to_25M_24M.v,1594661093,verilog,,C:/Users/FABIa/Documents/GitHub/Proyecto_Final_Digital/wp2-simulacion-captura-grupo-04/src/project_1.srcs/sources_1/new/test_cam.v,,clk_100MHZ_to_25M_24M,,,,,,,,
+C:/Users/FABIa/Documents/GitHub/Proyecto_Final_Digital/wp2-simulacion-captura-grupo-04/src/project_1.srcs/sources_1/new/VGA_driver.v,1594677181,verilog,,C:/Users/FABIa/Documents/GitHub/Proyecto_Final_Digital/wp2-simulacion-captura-grupo-04/src/project_1.srcs/sources_1/new/buffer_ram_dp.v,,VGA_Driver640x480,,,,,,,,
+C:/Users/FABIa/Documents/GitHub/Proyecto_Final_Digital/wp2-simulacion-captura-grupo-04/src/project_1.srcs/sources_1/new/buffer_ram_dp.v,1594661093,verilog,,C:/Users/FABIa/Documents/GitHub/Proyecto_Final_Digital/wp2-simulacion-captura-grupo-04/src/project_1.srcs/sources_1/new/captura_de_datos_downsampler.v,,buffer_ram_dp,,,,,,,,
+C:/Users/FABIa/Documents/GitHub/Proyecto_Final_Digital/wp2-simulacion-captura-grupo-04/src/project_1.srcs/sources_1/new/captura_de_datos_downsampler.v,1594661093,verilog,,C:/Users/FABIa/Documents/GitHub/Proyecto_Final_Digital/wp2-simulacion-captura-grupo-04/src/project_1.srcs/sources_1/new/PLL/clk_100MHZ_to_25M_24M.v,,captura_de_datos_downsampler,,,,,,,,
+C:/Users/FABIa/Documents/GitHub/Proyecto_Final_Digital/wp2-simulacion-captura-grupo-04/src/project_1.srcs/sources_1/new/test_cam.v,1594677027,verilog,,C:/Users/FABIa/Documents/GitHub/Proyecto_Final_Digital/wp2-simulacion-captura-grupo-04/src/simulation/test_cam_TB.v,,test_cam,,,,,,,,
+C:/Users/FABIa/Documents/GitHub/Proyecto_Final_Digital/wp2-simulacion-captura-grupo-04/src/simulation/test_cam_TB.v,1594680964,verilog,,,,test_cam_TB,,,,,,,,

@@ -172,7 +172,7 @@ VGA si la imagen de la camara es menor que el display VGA, los pixeles
 adicionales seran iguales al color del ultimo pixel de memoria 
 **************************************************************************** */
 always @ (VGA_posX, VGA_posY) begin
-		if ((VGA_posX>CAM_SCREEN_X-1) |(VGA_posY>CAM_SCREEN_Y-1))
+		if ((VGA_posX>CAM_SCREEN_X-1) ||(VGA_posY>CAM_SCREEN_Y-1))
 			//DP_RAM_addr_out=CAM_SCREEN_X*CAM_SCREEN_Y;
 			DP_RAM_addr_out=15'b1111_1111_1111_111;
 		else

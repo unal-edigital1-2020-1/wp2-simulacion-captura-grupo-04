@@ -3,7 +3,7 @@ verilog xil_defaultlib  \
 "../../../../project_1.srcs/sources_1/new/VGA_driver.v" \
 "../../../../project_1.srcs/sources_1/new/buffer_ram_dp.v" \
 "../../../../project_1.srcs/sources_1/new/captura_de_datos_downsampler.v" \
-"../../../../../../../../Downloads/clk_100MHZ_to_25M_24M.v" \
+"../../../../project_1.srcs/sources_1/new/PLL/clk_100MHZ_to_25M_24M.v" \
 "../../../../project_1.srcs/sources_1/new/test_cam.v" \
 "../../../../simulation/test_cam_TB.v" \
 
