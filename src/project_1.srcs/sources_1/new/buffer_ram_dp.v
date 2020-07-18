@@ -52,7 +52,7 @@ end
 
 initial begin
 	$readmemh(imageFILE, ram);
-	ram[15'b1111_1111_1111_111] = 12'b0000_0000_0000;  
+	ram[160*120] = 12'b0000_0000_0000;  
 end
 
 /*

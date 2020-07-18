@@ -71,7 +71,7 @@ wire clk24M;
 
 wire DP_RAM_regW;
 
-
+//wire rst_Cam_read =1;
 	
 // Conexion VGA Driver
 
@@ -145,8 +145,8 @@ buffer_ram_dp #(AW,DW)
 	.regwrite(DP_RAM_regW), 
 	.clk_r(clk25M), 
 	.addr_out(DP_RAM_addr_out),
-	.data_out(data_mem),
-	.reset(rst)
+	.data_out(data_mem)
+	//.reset(rst)
 );
 	
 /* ****************************************************************************
@@ -172,11 +172,11 @@ VGA si la imagen de la camara es menor que el display VGA, los pixeles
 adicionales seran iguales al color del ultimo pixel de memoria 
 **************************************************************************** */
 always @ (VGA_posX, VGA_posY) begin
-		if ((VGA_posX>CAM_SCREEN_X-1) ||(VGA_posY>CAM_SCREEN_Y-1))
+		if ((VGA_posX>CAM_SCREEN_X-1) |(VGA_posY>CAM_SCREEN_Y-1))
 			//DP_RAM_addr_out=CAM_SCREEN_X*CAM_SCREEN_Y;
-			DP_RAM_addr_out=15'b1111_1111_1111_111;
+			DP_RAM_addr_out=160*120;
 		else
-			DP_RAM_addr_out=VGA_posX+(VGA_posY*CAM_SCREEN_X);
+			DP_RAM_addr_out=VGA_posX+VGA_posY*CAM_SCREEN_X;
 end
 
 endmodule

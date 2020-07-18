@@ -56,8 +56,8 @@ assign Vsync_n = ~((countY>=SCREEN_Y+FRONT_PORCH_Y) && (countY<SCREEN_Y+FRONT_PO
 
 always @(posedge clk) begin
 	if (rst) begin
-		countX <= 10'b0;
-		countY <= 10'b0;
+		countX <= 656;
+		countY <= 490;
 	end
 	else begin 
 		if (countX >= (TOTAL_SCREEN_X-1)) begin

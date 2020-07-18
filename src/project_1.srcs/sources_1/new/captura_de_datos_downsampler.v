@@ -26,14 +26,25 @@ module captura_de_datos_downsampler(
 	input VSYNC,
 	input [7:0] CAM_px_data,
 
-	output reg [11:0] DP_RAM_data_in,
+	output reg [11:0] DP_RAM_data_in=0,
 	output reg [14:0] DP_RAM_addr_in=0,
-	output reg DP_RAM_regW
+	output reg DP_RAM_regW=0  
 	//input btn
+	
    );
 	
-	reg [1:0]cont=1'b0;
-	
+	reg cont=1'b0;
+//	always @ (posedge PCLK)
+////  begin
+////    if(rst)
+////    begin
+////        DP_RAM_regW=0;
+////        DP_RAM_addr_in=0;
+////        DP_RAM_data_in=0;
+////        rst=0;
+////    end
+  
+//  end
 	
 	always@(posedge PCLK)
 	begin

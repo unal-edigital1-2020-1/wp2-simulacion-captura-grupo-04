@@ -83,12 +83,11 @@ module test_cam_TB;
 		CAM_vsync = 1;
 		CAM_href = 0;
 
-		CAM_px_data = 8'b00001111;
+		CAM_px_data = 8'b11110000;
    	// Wait 100 ns for global reset to finish
 		#20;
 		rst = 0;
-		
-		 img_generate=1;
+		img_generate=1;
 
 		
 	end
@@ -97,8 +96,8 @@ module test_cam_TB;
  	always #2 pclk  = ~pclk;
 	
 	
-	reg [9:0]line_cnt=0;
-	reg [9:0]row_cnt=0;
+	reg [8:0]line_cnt=0;
+	reg [6:0]row_cnt=0;
 	
 	parameter TAM_LINE=320;	// es 160x2 debido a que son dos pixeles de RGB
 	parameter TAM_ROW=120;
@@ -119,7 +118,7 @@ module test_cam_TB;
 				row_cnt=row_cnt+1;
 				if (row_cnt>TAM_ROW-1+BLACK_TAM_ROW) begin
 					row_cnt=0;
-					CAM_px_data = ~ CAM_px_data;
+					
 				end
 			end
 		end
@@ -150,7 +149,9 @@ module test_cam_TB;
 		if (row_cnt>BLACK_TAM_ROW-1)begin
 			if (line_cnt==0)begin
 				CAM_href  = 1; 
-				
+				CAM_px_data=~CAM_px_data;					
+			
+
 			end
 		end
 			if (line_cnt==TAM_LINE)begin
