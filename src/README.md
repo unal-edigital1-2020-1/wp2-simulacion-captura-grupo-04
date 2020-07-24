@@ -7,6 +7,7 @@
 - Fabian Steven Galindo Peña
 - Jefersson Garzón Romero
 - Juan Camilo Rojas Dávila 
+- Sebastian Pérez Peñaloza
 
 ## Introducción
 
