@@ -52,7 +52,7 @@ module cam_read #(
 						cont_href = cont_href +1;
 						cont_pixel = 0;
 						state = 3;
-						DP_RAM_data_in[11:4] = {CAM_px_data[7:5],1'b0,CAM_px_data[4:2],1'b0};
+					DP_RAM_data_in[11:8] = {CAM_px_data[3:0]};
 						DP_RAM_regW = 0;
 						cont = ~cont;
 						cont_pclk = cont_pclk + 1;
@@ -70,13 +70,13 @@ module cam_read #(
 				//Arreglar esto
 				if (cont==0)
 				begin
-					DP_RAM_data_in[11:4] = {CAM_px_data[7:5],1'b0,CAM_px_data[4:2],1'b0};
+					DP_RAM_data_in[11:8] = {CAM_px_data[3:0]};
 					DP_RAM_regW = 0;
 					cont_pclk = cont_pclk + 1;
 				end
 				else 
 				begin
-					DP_RAM_data_in[3:0] = {CAM_px_data[1:0],2'b00};
+					DP_RAM_data_in[7:0] = {CAM_px_data[7:0]};
 					DP_RAM_regW = 1;
 					if(DP_RAM_addr_in < 19199) DP_RAM_addr_in = DP_RAM_addr_in + 1;
 					cont_pixel = cont_pixel +1;
