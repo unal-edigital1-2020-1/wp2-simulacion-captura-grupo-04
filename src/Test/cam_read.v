@@ -16,7 +16,7 @@ module cam_read #(
 		output reg DP_RAM_regW = 0
    );
 	
-	reg [2:0] fsm_state=1;
+	reg [2:0] state=1;
 	reg pas_vsync = 0;
 	reg cont = 1'b0;
 	reg [15:0] cont_href=16'h0000;
@@ -30,20 +30,20 @@ module cam_read #(
 		begin
 			DP_RAM_addr_in=0;
 			cont_href[15:0]=16'h0000;
-			fsm_state=1;
+			state=1;
 			pas_vsync=0;
 			
 		end else 
 		
 		//Maquina de estados		
 		
-		case(fsm_state) 					
+		case(state) 					
 			
 		1:		// Valores iniciales
 			begin
 				cont_href[15:0]=16'h0000;
 				DP_RAM_addr_in=0;								
-				if(pas_vsync && !CAM_VSYNC) fsm_state=2;
+				if(pas_vsync && !CAM_VSYNC) state=2;
 			end
 			
 		2:		// Contador HREF
@@ -51,7 +51,7 @@ module cam_read #(
 				if(!pas_href && CAM_HREF) begin
 						cont_href = cont_href +1;
 						cont_pixel = 0;
-						fsm_state = 3;
+						state = 3;
 						DP_RAM_data_in[11:4] = {CAM_px_data[7:5],1'b0,CAM_px_data[4:2],1'b0};
 						DP_RAM_regW = 0;
 						cont = ~cont;
@@ -59,9 +59,9 @@ module cam_read #(
 					
 				end 
 				else if(CAM_VSYNC) 
-						fsm_state=1;
+						state=1;
 				else if(Photo_button)
-						fsm_state = 4;
+						state = 4;
 			end
 			
 		3:		// Captura de datos
@@ -84,7 +84,7 @@ module cam_read #(
 				end
 				cont = ~cont;
 				
-			end else fsm_state=2;
+			end else state=2;
 		end
 		
 		4:		// Mostrar imagen		
@@ -92,7 +92,7 @@ module cam_read #(
 			DP_RAM_regW = 0;
 			
 			if(Video_button)
-				fsm_state = 1;
+				state = 1;
 		end
 		endcase
 		
