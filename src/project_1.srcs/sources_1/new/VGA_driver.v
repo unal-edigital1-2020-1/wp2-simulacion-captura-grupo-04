@@ -1,21 +1,5 @@
 `timescale 10ns / 1ns		
-//////////////////////////////////////////////////////////////////////////////////
-// 
-// Create Date:    13:34:31 10/22/2019 
-// Design Name: 	 Ferney alberto Beltran Molina
-// Module Name:    VGA_Driver 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
-//
-// Dependencies: 
-//
-// Revision: 
-// Revision 0.01 - File Created
-// Additional Comments: 
-//
-//////////////////////////////////////////////////////////////////////////////////
+
 module VGA_Driver640x480 (
 	input rst,
 	input clk, 				// 25MHz  para 60 hz de 640x480
@@ -31,7 +15,7 @@ module VGA_Driver640x480 (
 localparam SCREEN_X = 640; 	// tamaÒo de la pantalla visible en horizontal 
 localparam FRONT_PORCH_X =16;  
 localparam SYNC_PULSE_X = 96;
-localparam BACK_PORCH_X = 48;
+localparam BACK_PORCH_X = 28; //48
 localparam TOTAL_SCREEN_X = SCREEN_X+FRONT_PORCH_X+SYNC_PULSE_X+BACK_PORCH_X; 	// total pixel pantalla en horizontal 
 
 
@@ -42,8 +26,8 @@ localparam BACK_PORCH_Y = 33;
 localparam TOTAL_SCREEN_Y = SCREEN_Y+FRONT_PORCH_Y+SYNC_PULSE_Y+BACK_PORCH_Y; 	// total pixel pantalla en Vertical 
 
 
-reg  [9:0] countX;
-reg  [9:0] countY;
+reg  [9:0] countX = SCREEN_X;
+reg  [9:0] countY = SCREEN_Y;
 
 assign posX    = countX;
 assign posY    = countY;
@@ -56,8 +40,8 @@ assign Vsync_n = ~((countY>=SCREEN_Y+FRONT_PORCH_Y) && (countY<SCREEN_Y+FRONT_PO
 
 always @(posedge clk) begin
 	if (rst) begin
-		countX <= 656;
-		countY <= 490;
+		countX <= (SCREEN_X+FRONT_PORCH_X-1);
+		countY <= (SCREEN_Y+FRONT_PORCH_Y-1);
 	end
 	else begin 
 		if (countX >= (TOTAL_SCREEN_X-1)) begin
@@ -77,4 +61,3 @@ always @(posedge clk) begin
 end
 
 endmodule
-

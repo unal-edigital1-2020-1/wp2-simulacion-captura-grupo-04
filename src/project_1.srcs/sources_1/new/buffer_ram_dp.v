@@ -1,25 +1,9 @@
 `timescale 10ns / 1ns	
-//////////////////////////////////////////////////////////////////////////////////
-// 
-// Create Date:    13:34:31 10/22/2019 
-// Design Name: 	 Ferney alberto Beltran Molina
-// Module Name:    buffer_ram_dp 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
-//
-// Dependencies: 
-//
-// Revision: 
-// Revision 0.01 - File Created
-// Additional Comments: 
-//
-//////////////////////////////////////////////////////////////////////////////////
+
 module buffer_ram_dp#( 
 	parameter AW = 15, // Cantidad de bits  de la direccin 
 	parameter DW = 12, // cantidad de Bits de los datos 
-	parameter   imageFILE= "C:/Users/FABIa/Documents/GitHub/wp2-simulacion-captura-grupo-04/src/project_1.srcs/sources_1/new/image.men")
+	parameter   imageFILE= "C:\Users\FABIa\Documents\GitHub\Proyecto_Final_final_digital\wp2-simulacion-captura-grupo-04\src\project_1.srcs\sources_1\new\imagen.men")
 	(  
 	input  clk_w, 
 	input  [AW-1: 0] addr_in, 
@@ -28,8 +12,8 @@ module buffer_ram_dp#(
 	
 	input  clk_r, 
 	input [AW-1: 0] addr_out,
-	output reg [DW-1: 0] data_out,
-	input reset
+	output reg [DW-1: 0] data_out
+	//input reset
 	);
 
 // Calcular el nmero de posiciones totales de memoria 
@@ -52,7 +36,7 @@ end
 
 initial begin
 	$readmemh(imageFILE, ram);
-	ram[160*120] = 12'b0000_0000_0000;  
+	ram[15'b111111111111111] = 12'b000000000000;  
 end
 
 /*

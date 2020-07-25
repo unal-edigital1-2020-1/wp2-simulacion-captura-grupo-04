@@ -1,28 +1,11 @@
 `timescale 10ns / 1ns
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date:    10:46:19 11/04/2019 
-// Design Name: 
-// Module Name:    test_cam 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
-//
-// Dependencies: 
-//
-// Revision: 
-// Revision 0.01 - File Created
-// Additional Comments: 
-//
-//////////////////////////////////////////////////////////////////////////////////
+
 module test_cam(
     input wire clk,           // board clock: 100 MHz 
     input wire rst,
 	 // reset button
-
+    input wire Photo_button,
+    input wire Video_button,
 	// VGA input/output  
     output wire VGA_Hsync_n,  // horizontal sync output
     output wire VGA_Vsync_n,  // vertical sync output
@@ -36,15 +19,17 @@ module test_cam(
 	output wire [14:0]  DP_RAM_addr_in,
 	output wire [11:0] DP_RAM_data_in,
 	output reg [14:0] DP_RAM_addr_out,
+	
 	//CAMARA input/output
 	
 	output wire CAM_xclk,		// System  clock imput
 	output wire CAM_pwdn,		// power down mode 
 	output wire CAM_reset,		// clear all registers of cam
+	
 	input CAM_PCLK,				// Sennal PCLK de la camara
 	input CAM_HREF,				// Sennal HREF de la camara
 	input CAM_VSYNC,				// Sennal VSYNC de la camara
-	input [7:0] CAM_px_data     // Bit n de los datos del pixel
+	input [11:0] CAM_px_data     // Bit n de los datos del pixel
 
    );
 
@@ -58,16 +43,15 @@ localparam DW = 12;
 
 
 // El color es RGB 444
-//localparam RED_VGA =   12'b111100000000;
-//localparam GREEN_VGA = 12'b000011110000;
-//localparam BLUE_VGA =  12'b000000001111;
+localparam RED_VGA =   12'b111100000000;
+localparam GREEN_VGA = 12'b000011110000;
+localparam BLUE_VGA =  12'b000000001111;
 // Clk 
 wire clk100M;
 wire clk25M;
 wire clk24M;
 
 // Conexion dual por ram
-
 
 wire DP_RAM_regW;
 
@@ -78,7 +62,7 @@ wire DP_RAM_regW;
 //wire [DW-1:0]data_RGB332;  // salida del driver VGA al puerto
 wire [DW-1:0]data_RGB444;  // salida del driver VGA al puerto
 wire [9:0]VGA_posX;		   // Determinar la pos de memoria que viene del VGA
-wire [9:0]VGA_posY;		   // Determinar la pos de memoria que viene del VGA
+wire [8:0]VGA_posY;		   // Determinar la pos de memoria que viene del VGA
 
 
 /* ****************************************************************************
@@ -118,10 +102,30 @@ clk_100MHZ_to_25M_24M pll(
   //.LOCKED()
  );
 
+/*****************************************************************************
+Instancia del modulo disennado cam_read - Captura de datos y downsampler
+**************************************************************************** */
+ cam_read Camera_Read(
+ 
+		// Entradas
+		.CAM_PCLK(CAM_PCLK),
+		.rst(rst),
+		.CAM_VSYNC(CAM_VSYNC),
+		.CAM_HREF(CAM_HREF),
+		.CAM_px_data(CAM_px_data),
+		.Photo_button(Photo_button),
+		.Video_button(Video_button),
+		
+		// Salidas
+		.DP_RAM_addr_in(DP_RAM_addr_in),
+		.DP_RAM_data_in(DP_RAM_data_in),
+		.DP_RAM_regW(DP_RAM_regW)
+   );
+
 /* ****************************************************************************
 captura_datos_downsampler
 **************************************************************************** */
-
+/*
 captura_de_datos_downsampler Capture_Downsampler(
 	.PCLK(CAM_PCLK),
 	.HREF(CAM_HREF),
@@ -131,7 +135,7 @@ captura_de_datos_downsampler Capture_Downsampler(
 	.DP_RAM_addr_in(DP_RAM_addr_in),
 	.DP_RAM_regW(DP_RAM_regW)
 	);
-
+*/
 /* ****************************************************************************
 buffer_ram_dp buffer memoria dual port y reloj de lectura y escritura separados
 Se debe configurar AW  segn los calculos realizados en el Wp01
@@ -174,7 +178,8 @@ adicionales seran iguales al color del ultimo pixel de memoria
 always @ (VGA_posX, VGA_posY) begin
 		if ((VGA_posX>CAM_SCREEN_X-1) |(VGA_posY>CAM_SCREEN_Y-1))
 			//DP_RAM_addr_out=CAM_SCREEN_X*CAM_SCREEN_Y;
-			DP_RAM_addr_out=160*120;
+			//DP_RAM_addr_out=160*120;
+			DP_RAM_addr_out=15'b111111111111111;
 		else
 			DP_RAM_addr_out=VGA_posX+VGA_posY*CAM_SCREEN_X;
 end

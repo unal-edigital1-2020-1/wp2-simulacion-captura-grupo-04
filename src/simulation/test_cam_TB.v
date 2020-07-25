@@ -1,27 +1,5 @@
 `timescale 10ns / 1ns
 
-////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer:
-//
-// Create Date:   09:45:24 12/04/2019
-// Design Name:   test_cam
-// Module Name:   C:/Users/UECCI/Desktop/pruebas camd2/hw/src/test_cam_TB.v
-// Project Name:  test_cam
-// Target Device:  
-// Tool versions:  
-// Description: 
-//
-// Verilog Test Fixture created by ISE for module: test_cam
-//
-// Dependencies:
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-////////////////////////////////////////////////////////////////////////////////
-
 module test_cam_TB;
 
 	// Inputs
@@ -82,8 +60,8 @@ module test_cam_TB;
 		pclk = 0;
 		CAM_vsync = 1;
 		CAM_href = 0;
-
-		CAM_px_data = 8'b11110000;
+     CAM_px_data=8'b11110000;
+		//CAM_px_data = 8'b00000000;
    	// Wait 100 ns for global reset to finish
 		#20;
 		rst = 0;
@@ -96,8 +74,8 @@ module test_cam_TB;
  	always #2 pclk  = ~pclk;
 	
 	
-	reg [8:0]line_cnt=0;
-	reg [6:0]row_cnt=0;
+	reg [9:0]line_cnt=0;
+	reg [9:0]row_cnt=0;
 	
 	parameter TAM_LINE=320;	// es 160x2 debido a que son dos pixeles de RGB
 	parameter TAM_ROW=120;
@@ -149,7 +127,7 @@ module test_cam_TB;
 		if (row_cnt>BLACK_TAM_ROW-1)begin
 			if (line_cnt==0)begin
 				CAM_href  = 1; 
-				CAM_px_data=~CAM_px_data;					
+				//CAM_px_data=~CAM_px_data;				
 			
 
 			end
@@ -161,9 +139,29 @@ module test_cam_TB;
 		end
 	end
 	
-	
+	    reg [1:0]cont2=0;
+	  
+    initial forever begin
 
-
+        @(posedge pclk) begin
+                if (cont2==0)begin
+                    CAM_px_data=~CAM_px_data;
+                end
+//            if(cont2==0)begin
+//                CAM_px_data=8'b11110000;
+//            end
+//            else if (cont2==1)begin
+//                CAM_px_data=8'b11110000;
+//            end
+//            else if (cont2==2) begin
+//                CAM_px_data=8'b00001111;
+//            end
+//            else begin
+//                CAM_px_data=8'b00001111;
+//            end 
+            cont2=cont2+1;
+        end
+    end
 
 	/*************************************************************************
 			FIN SIMULACI“N DE SE—ALES DE LA CAMARA 	
@@ -189,4 +187,3 @@ module test_cam_TB;
 	end
 	
 endmodule
-
