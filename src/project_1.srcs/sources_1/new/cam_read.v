@@ -1,7 +1,7 @@
 `timescale 10ns / 1ns
 
 module cam_read #(
-		parameter AW = 15
+		parameter AW = 15 
 		)(
 		input rst,
 		input CAM_PCLK,
@@ -25,13 +25,11 @@ module cam_read #(
 	reg [15:0] cont_pclk=16'h0000;
 	
 	always@(posedge CAM_PCLK) begin
+		if (rst) begin
 		
-		if (rst)
-		begin
-			DP_RAM_addr_in=0;
-			cont_href[15:0]=16'h0000;
-			state=1;
-			pas_vsync=0;
+		  DP_RAM_addr_in=0;
+		  cont_href[15:0]=16'h0000;
+		  state=1;pas_vsync=0;
 			
 		end else 
 		
@@ -43,7 +41,9 @@ module cam_read #(
 			begin
 				cont_href[15:0]=16'h0000;
 				DP_RAM_addr_in=15'b1111_1111_1111_111;								
-				if(pas_vsync && !CAM_VSYNC) state=2;
+				if(pas_vsync && !CAM_VSYNC) begin
+				    state=2;
+				end
 			end
 			
 		2:		// Contador HREF
@@ -67,7 +67,6 @@ module cam_read #(
 		3:		// Captura de datos
 		begin
 			if(CAM_HREF) begin  
-				//Arreglar esto
 				if (cont==0)
 				begin
 					DP_RAM_data_in[11:8] = {CAM_px_data[3:0]};
