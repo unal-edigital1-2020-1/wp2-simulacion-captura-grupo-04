@@ -34,7 +34,7 @@ module test_cam(
 //    input wire Video_button,
    );
 
-// TAMAÑO DE ADQUISICION DE LA CAMARA 
+// TAMAÃ‘O DE ADQUISICION DE LA CAMARA 
 parameter CAM_SCREEN_X = 160; 
 parameter CAM_SCREEN_Y = 120; 
 
@@ -43,18 +43,18 @@ localparam DW = 12; //bits por pixel
 
 //CLK
 wire clk100M;
-wire clk25M;
+//wire clk25M;
 wire clk24M;
 
-// Conexión dual por ram
-wire [AW-1: 0] DP_RAM_addr_in;		
-wire [DW-1: 0] DP_RAM_data_in;
-wire DP_RAM_regW;
+// ConexiÃ³n dual por ram
+//wire [AW-1: 0] DP_RAM_addr_in;		
+//wire [DW-1: 0] DP_RAM_data_in;
+//wire DP_RAM_regW;
 
-reg  [AW-1: 0] DP_RAM_addr_out;	
+//reg  [AW-1: 0] DP_RAM_addr_out;	
 
 // Conexion VGA Driver
-wire [14:0] data_mem;       // Salida de dp_ram al driver VGA
+//wire [14:0] data_mem;       // Salida de dp_ram al driver VGA
 wire [DW-1:0]data_RGB444;  // salida del driver VGA al puerto
 wire [9:0]VGA_posX;		   // Determinar la pos de memoria que viene del VGA
 wire [9:0]VGA_posY;		   // Determinar la pos de memoria que viene del VGA
