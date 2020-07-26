@@ -11,23 +11,23 @@
 
 ## Contenido
 
-- Introducción
-- Objetivos
-- Cámara 
-- Desarrollo de la simulación
-  - Explicación funcionamiento general
-  - Explicación módulo memoria buffer RAM
-  - Explicación módulo captura de datos
-  - Máquina de estados 
-  - Explicación módulo VGA Driver
-  - Explicación módulo test cam
-  - Explicación módulo test bench
-- Resultados simulación 
-  - Historial de trabajo, progreso, errores y correcciones 
-- Desarrollo de la implementación
-  - Configuración de la cámara (arduino)
-- Resultados de la implementación
-- Conclusiones
+* Introducción
+* Objetivos
+* Cámara 
+* Desarrollo de la simulación
+  * Explicación funcionamiento general
+  * Explicación módulo memoria buffer RAM
+  * Explicación módulo captura de datos
+    * Máquina de estados 
+  * Explicación módulo VGA Driver
+  * Explicación módulo test cam
+  * Explicación módulo test bench
+* Resultados simulación 
+  * Historial de trabajo, progreso, errores y correcciones 
+* Desarrollo de la implementación
+  * Configuración de la cámara (arduino)
+* Resultados de la implementación
+* Conclusiones
 
 
 ## Introducción
