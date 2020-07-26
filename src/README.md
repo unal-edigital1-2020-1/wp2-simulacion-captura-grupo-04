@@ -90,3 +90,62 @@ Después de definir las entradas y las salidas se procede a crear el espacio don
     end
 
 Para la escritura de datos en la memoria se usan los tiempos del clk_w para revisar si ya es momento de guardar los datos o no. Si es el momento entonces se procede a asignarle el dato de entrada al espacio en la memoria definido por la dirección de entrada.
+
+    always @(*) begin 
+        data_out <= ram[addr_out]; 
+    end
+
+Para la lectura de los datos guardados se espera a que haya un cambio en la dirección de salida que se pide para poder entregar el dato. 
+
+    initial begin
+        $readmemh(imageFILE, ram);
+        ram[imagesize] = 12'b000000000000;  
+    end
+
+Para iniciar la memoria buffer RAM inicialmente se lee un archivo .men que contiene los datos predeterminados de 19200 pixeles en formato RGB444 y a la última posición de la memoria se le asignan 0s.
+
+#### Explicación módulo captura de datos
+
+
+
+#### Explicación módulo VGA Driver
+
+    (
+        //entradas 
+	    input rst,
+	    input clk, 				// 25MHz  para 60 hz de 640x480
+	    input  [11:0] pixelIn, 	// entrada del valor de color  pixel 
+	    //salidas
+	    output  [11:0] pixelOut, // salida del valor pixel a la VGA 
+	    output  Hsync_n,		// señal de sincronizacion en horizontal negada
+	    output  Vsync_n,		// señal de sincronizacion en vertical negada 
+	    output  [9:0] posX, 	// posicion en horizontal del pixel siguiente
+	    output  [9:0] posY 		// posicion en vertical  del pixel siguiente
+    );
+    
+    localparam SCREEN_X = 640; 	// tamaño de la pantalla visible en horizontal 
+    localparam FRONT_PORCH_X =16;  
+    localparam SYNC_PULSE_X = 96;
+    localparam BACK_PORCH_X = 48; //28
+    localparam TOTAL_SCREEN_X = SCREEN_X+FRONT_PORCH_X+SYNC_PULSE_X+BACK_PORCH_X; 	// total pixel pantalla en horizontal 
+    
+    
+    localparam SCREEN_Y = 480; 	// tamaño de la pantalla visible en Vertical 
+    localparam FRONT_PORCH_Y =10;  
+    localparam SYNC_PULSE_Y = 2;
+    localparam BACK_PORCH_Y = 33;
+    localparam TOTAL_SCREEN_Y = SCREEN_Y+FRONT_PORCH_Y+SYNC_PULSE_Y+BACK_PORCH_Y; 	
+
+rst: Reset
+clk: Reloj de lectura de la memoria RAM - 25MHz, para 60 hz de 640x480
+pixelin[11:0]: Entrada valor del color del pixel de la RAM
+
+pixelOut[11:0]: Salida del Valor del pixel a la VGA.
+Hsync_n: señal de sincronización en horizontal negada.
+Vsync_n: señal de sincronización en vertical negada.
+posX[9:0]: posición en horizontal del pixel siguiente.
+posY[9:0]: posición en vertical del pixel siguiente.
+
+Calculamos el tamaño de la pantalla que vamos a usar teniendo en cuenta la zona negra que va a quedar por la resolución empleada
+
+
