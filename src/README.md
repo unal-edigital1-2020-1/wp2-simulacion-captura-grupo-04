@@ -68,15 +68,15 @@ Para el formato de 160x120 se necesitan 393 216 bits o 49140,75 Bytes. Con este 
     input [AW-1: 0] addr_out,
     output reg [DW-1: 0] data_out
 
-**AW:** Define el número de direcciones posibles. 2 elevado AW es la cantidad de direcciones posibles y en este caso AW es igual a 15 por los cálculos hechos previamente. 
-**DW:** Define el tamaño de los datos que van a entrar a la memoria. En este caso este parámetro es igual a 12 por el formato de píxel escogido.
-**clk_w:** Es el reloj que sincroniza la escritura de datos en la memoria buffer RAM.
-**addr_in:** Es la dirección de entrada del dato, define en qué espacio de la memoria se va a guardar. Esta dirección la define el módulo de captura de datos.
-**data_in:** Es el dato que entra a la memoria. Este fue procesado previamente en el módulo de captura de datos.
-**regwrite:** Es el registro que indica si ya se puede hacer la escritura de datos en la memoria o no.
-**clk_r:** Es el reloj que sincroniza la lectura de los datos guardados en la memoria.
-**addr_out:** Es la dirección en el registro del dato que va a salir hacia el VGA Driver.
-**data_out:** Es el dato que sale de la memoria hacia el VGA Driver.
+- **AW:** Define el número de direcciones posibles. 2 elevado AW es la cantidad de direcciones posibles y en este caso AW es igual a 15 por los cálculos hechos previamente. 
+- **DW:** Define el tamaño de los datos que van a entrar a la memoria. En este caso este parámetro es igual a 12 por el formato de píxel escogido.
+- **clk_w:** Es el reloj que sincroniza la escritura de datos en la memoria buffer RAM.
+- **addr_in:** Es la dirección de entrada del dato, define en qué espacio de la memoria se va a guardar. Esta dirección la define el módulo de captura de datos.
+- **data_in:** Es el dato que entra a la memoria. Este fue procesado previamente en el módulo de captura de datos.
+- **regwrite:** Es el registro que indica si ya se puede hacer la escritura de datos en la memoria o no.
+- **clk_r:** Es el reloj que sincroniza la lectura de los datos guardados en la memoria.
+- **addr_out:** Es la dirección en el registro del dato que va a salir hacia el VGA Driver.
+- **data_out:** Es el dato que sale de la memoria hacia el VGA Driver.
 
     localparam NPOS = 2 ** AW;
     param imagesize=160*120;
@@ -136,14 +136,14 @@ Para iniciar la memoria buffer RAM inicialmente se lee un archivo .men que conti
     localparam BACK_PORCH_Y = 33;
     localparam TOTAL_SCREEN_Y = SCREEN_Y+FRONT_PORCH_Y+SYNC_PULSE_Y+BACK_PORCH_Y; 	
 
-**rst:** Reset
-**clk:** Reloj de lectura de la memoria RAM - 25MHz, para 60 hz de 640x480
-**pixelin[11:0]:** Entrada valor del color del pixel de la RAM
-**pixelOut[11:0]:** Salida del Valor del pixel a la VGA.
-**Hsync_n:** señal de sincronización en horizontal negada.
-**Vsync_n:** señal de sincronización en vertical negada.
-**posX[9:0]:** posición en horizontal del pixel siguiente.
-**posY[9:0]:** posición en vertical del pixel siguiente.
+- **rst:** Reset
+- **clk:** Reloj de lectura de la memoria RAM - 25MHz, para 60 hz de 640x480
+- **pixelin[11:0]:** Entrada valor del color del pixel de la RAM
+- **pixelOut[11:0]:** Salida del Valor del pixel a la VGA.
+- **Hsync_n:** señal de sincronización en horizontal negada.
+- **Vsync_n:** señal de sincronización en vertical negada.
+- **posX[9:0]:** posición en horizontal del pixel siguiente.
+- **posY[9:0]:** posición en vertical del pixel siguiente.
 
 Calculamos el tamaño de la pantalla que vamos a usar teniendo en cuenta la zona negra que va a quedar por la resolución empleada
 
@@ -153,8 +153,9 @@ Calculamos el tamaño de la pantalla que vamos a usar teniendo en cuenta la zona
     assign posX = countX;
     assign posY = countY;
 
-**CountX:** Contador de Píxeles Horizontal 
-**CountY:** Contador de píxeles vertical 
+- **CountX:** Contador de Píxeles Horizontal 
+- **CountY:** Contador de píxeles vertical 
+
 Con el fin de determinar la dirección en que está visualizando el pixel.  Se asigna como posición de inicio en el primer ciclo del reloj los valores de 640 (PosX),  480(PosY) de esta manera la toma de datos es mas rapida 
 
     assign pixelOut = (countX<SCREEN_X) ? (pixelIn) : (12'b000000000000) ;
