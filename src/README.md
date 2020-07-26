@@ -60,13 +60,13 @@ Para el formato de 640x480 se necesitan 6 291 459 bits o 786 432 Bytes, lo que e
 
 Para el formato de 160x120 se necesitan 393 216 bits o 49140,75 Bytes. Con este formato se utiliza menos memoria de la disponible en la FPGA asegurando que va a funcionar. Ya con el espacio definido se procede a diseñar el módulo:
 
- input  clk_w, 
- 	input  [AW-1: 0] addr_in, 
- 	input  [DW-1: 0] data_in,
- 	input  regwrite, 
- 	input  clk_r, 
- 	input [AW-1: 0] addr_out,
- 	output reg [DW-1: 0] data_out
+    input  clk_w, 
+    input  [AW-1: 0] addr_in, 
+    input  [DW-1: 0] data_in,
+    input  regwrite, 
+    input  clk_r, 
+    input [AW-1: 0] addr_out,
+    output reg [DW-1: 0] data_out
 
 **AW:** Define el número de direcciones posibles. 2 elevado AW es la cantidad de direcciones posibles y en este caso AW es igual a 15 por los cálculos hechos previamente. 
 **DW:** Define el tamaño de los datos que van a entrar a la memoria. En este caso este parámetro es igual a 12 por el formato de píxel escogido.
