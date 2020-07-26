@@ -16,7 +16,7 @@ module buffer_ram_dp#(
 	//input reset
 	);
 
-// Calcular el nmero de posiciones totales de memoria 
+// Calcular el número de posiciones totales de memoria 
 localparam NPOS = 2 ** AW; // Memoria
 localparam imagesize=160*120;
  reg [DW-1: 0] ram [0: NPOS-1]; 
@@ -32,7 +32,6 @@ end
 always @(*) begin 
 		data_out <= ram[addr_out]; 
 end
-
 
 initial begin
 	$readmemh(imageFILE, ram);
