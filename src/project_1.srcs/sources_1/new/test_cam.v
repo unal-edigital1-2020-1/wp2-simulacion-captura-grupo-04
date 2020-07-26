@@ -138,9 +138,11 @@ VGA_Driver640x480
 **************************************************************************** */
 VGA_Driver640x480 VGA640x480
 (
+    //entradas 
 	.rst(rst),
 	.clk(clk25M), 				// 25MHz  para 60 hz de 640x480
-	.pixelIn(data_mem), 		// entrada del valor de color  pixel RGB 332 
+	.pixelIn(data_mem), 		// entrada del valor de color  pixel RGB 444 
+	//salidas 
 	.pixelOut(data_RGB444),     // salida del valor pixel a la VGA 
 	.Hsync_n(VGA_Hsync_n),	    // sennal de sincronizacion en horizontal negada
 	.Vsync_n(VGA_Vsync_n),	    // sennal de sincronizacion en vertical negada 
