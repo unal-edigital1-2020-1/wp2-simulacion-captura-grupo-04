@@ -136,16 +136,31 @@ Para iniciar la memoria buffer RAM inicialmente se lee un archivo .men que conti
     localparam BACK_PORCH_Y = 33;
     localparam TOTAL_SCREEN_Y = SCREEN_Y+FRONT_PORCH_Y+SYNC_PULSE_Y+BACK_PORCH_Y; 	
 
-rst: Reset
-clk: Reloj de lectura de la memoria RAM - 25MHz, para 60 hz de 640x480
-pixelin[11:0]: Entrada valor del color del pixel de la RAM
-
-pixelOut[11:0]: Salida del Valor del pixel a la VGA.
-Hsync_n: señal de sincronización en horizontal negada.
-Vsync_n: señal de sincronización en vertical negada.
-posX[9:0]: posición en horizontal del pixel siguiente.
-posY[9:0]: posición en vertical del pixel siguiente.
+**rst:** Reset
+**clk:** Reloj de lectura de la memoria RAM - 25MHz, para 60 hz de 640x480
+**pixelin[11:0]:** Entrada valor del color del pixel de la RAM
+**pixelOut[11:0]:** Salida del Valor del pixel a la VGA.
+**Hsync_n:** señal de sincronización en horizontal negada.
+**Vsync_n:** señal de sincronización en vertical negada.
+**posX[9:0]:** posición en horizontal del pixel siguiente.
+**posY[9:0]:** posición en vertical del pixel siguiente.
 
 Calculamos el tamaño de la pantalla que vamos a usar teniendo en cuenta la zona negra que va a quedar por la resolución empleada
 
+    reg  [9:0] countX;
+    reg  [9:0] countY;
+    
+    assign posX = countX;
+    assign posY = countY;
+
+**CountX:** Contador de Píxeles Horizontal 
+**CountY:** Contador de píxeles vertical 
+Con el fin de determinar la dirección en que está visualizando el pixel.  Se asigna como posición de inicio en el primer ciclo del reloj los valores de 640 (PosX),  480(PosY) de esta manera la toma de datos es mas rapida 
+
+    assign pixelOut = (countX<SCREEN_X) ? (pixelIn) : (12'b000000000000) ;
+    
+    assign Hsync_n = ~((countX>=SCREEN_X+FRONT_PORCH_X) && (countX<SCREEN_X+SYNC_PULSE_X+FRONT_PORCH_X)); 
+    assign Vsync_n = ~((countY>=SCREEN_Y+FRONT_PORCH_Y) && (countY<SCREEN_Y+FRONT_PORCH_Y+SYNC_PULSE_Y));
+
+Asignando un valor al dato de la salida, tenemos que si countX es menor a 640 se toma el valor del dato pixelIN de otra forma se asignan ceros que representan el color negro. Además Hsync_n Vsync_n: Dependen de countX y countY. 
 
