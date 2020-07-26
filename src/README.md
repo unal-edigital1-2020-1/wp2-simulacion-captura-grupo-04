@@ -165,3 +165,28 @@ Con el fin de determinar la dirección en que está visualizando el pixel.  Se a
 
 Asignando un valor al dato de la salida, tenemos que si countX es menor a 640 se toma el valor del dato pixelIN de otra forma se asignan ceros que representan el color negro. Además Hsync_n Vsync_n: Dependen de countX y countY. 
 
+    always @(posedge clk) begin
+	    if (rst) begin
+		    countX <= (SCREEN_X+FRONT_PORCH_X-1);
+		    countY <= (SCREEN_Y+FRONT_PORCH_Y-1);
+	    end
+	    else begin 
+	        if (countX >= (TOTAL_SCREEN_X-1)) begin
+		      countX <= 0;
+		      if (countY >= (TOTAL_SCREEN_Y-1)) begin
+		          countY <= 0;
+		end 
+		    else begin
+		        countY <= countY + 1;
+		    end
+		end 
+		else begin
+		    countX <= countX + 1;
+		    countY <= countY;
+		end
+	  end
+    end
+
+Realizando el conteo de las posiciones en X y Y en las variables dependientes Hsync Vsync se establece una sincronización con los flancos de subida del reloj, es decir que si los contadores son mayores  o iguales al tamaño de la pantalla -1 los contadores se reinician en Cero (esquina superior izquierda) de lo contrario su valor aumenta +1 pixel de salida.
+
+
