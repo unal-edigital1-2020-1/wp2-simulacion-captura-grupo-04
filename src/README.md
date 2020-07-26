@@ -77,3 +77,16 @@ Para el formato de 160x120 se necesitan 393 216 bits o 49140,75 Bytes. Con este 
 **clk_r:** Es el reloj que sincroniza la lectura de los datos guardados en la memoria.
 **addr_out:** Es la dirección en el registro del dato que va a salir hacia el VGA Driver.
 **data_out:** Es el dato que sale de la memoria hacia el VGA Driver.
+
+    localparam NPOS = 2 ** AW;
+    param imagesize=160*120;
+    reg [DW-1: 0] ram [0: NPOS-1]; 
+    
+Después de definir las entradas y las salidas se procede a crear el espacio donde se van a guardar los datos. Para esto se define el número de posiciones que tendrá la memoria, en este caso 2 elevado AW. Después se crea el registro de 12 bits de largo por el número de posiciones posibles.
+
+    always @(posedge clk_w) begin 
+        if (regwrite == 1) 
+            ram[addr_in] <= data_in;
+    end
+
+Para la escritura de datos en la memoria se usan los tiempos del clk_w para revisar si ya es momento de guardar los datos o no. Si es el momento entonces se procede a asignarle el dato de entrada al espacio en la memoria definido por la dirección de entrada.
