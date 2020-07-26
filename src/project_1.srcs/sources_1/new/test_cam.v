@@ -4,8 +4,7 @@ module test_cam(
     input wire clk,           // board clock: 100 MHz 
     input wire rst,
 	 // reset button
-    input wire Photo_button,
-    input wire Video_button,
+    
 	// VGA input/output  
     output wire VGA_Hsync_n,  // horizontal sync output
     output wire VGA_Vsync_n,  // vertical sync output
@@ -14,11 +13,13 @@ module test_cam(
     output wire [3:0] VGA_B,  // 4-bit VGA blue output
 	
 	
+	output wire clk25M,
 	
-	output wire [11:0] data_mem,
 	output wire [14:0]  DP_RAM_addr_in,
 	output wire [11:0] DP_RAM_data_in,
+	output wire DP_RAM_regW,
 	output reg [14:0] DP_RAM_addr_out,
+	output wire [11:0] data_mem,
 	
 	//CAMARA input/output
 	
@@ -26,11 +27,12 @@ module test_cam(
 	output wire CAM_pwdn,		// power down mode 
 	output wire CAM_reset,		// clear all registers of cam
 	
-	input CAM_PCLK,				// Sennal PCLK de la camara
-	input CAM_HREF,				// Sennal HREF de la camara
-	input CAM_VSYNC,				// Sennal VSYNC de la camara
-	input [11:0] CAM_px_data     // Bit n de los datos del pixel
-
+	input wire CAM_PCLK,				// Sennal PCLK de la camara
+	input wire CAM_HREF,				// Sennal HREF de la camara
+	input wire CAM_VSYNC,				// Sennal VSYNC de la camara
+	input wire [7:0] CAM_px_data     // Bit n de los datos del pixel
+//    input wire Photo_button,
+//    input wire Video_button,
    );
 
 // TAMANNO DE ADQUISICION DE LA CAMARA 
@@ -40,29 +42,30 @@ parameter CAM_SCREEN_Y = 120; //120
 localparam AW = 15; // LOG2(CAM_SCREEN_X*CAM_SCREEN_Y)
 localparam DW = 12;
 
-
-
-// El color es RGB 444
-localparam RED_VGA =   12'b111100000000;
-localparam GREEN_VGA = 12'b000011110000;
-localparam BLUE_VGA =  12'b000000001111;
-// Clk 
 wire clk100M;
 wire clk25M;
 wire clk24M;
 
-// Conexion dual por ram
+// El color es RGB 444
+//localparam RED_VGA =   12'b111100000000;
+//localparam GREEN_VGA = 12'b000011110000;
+//localparam BLUE_VGA =  12'b000000001111;
+// Clk 
 
+
+// Conexion dual por ram
+wire [AW-1: 0] DP_RAM_addr_in;		// Conexión  Direccion entrada.
+wire [DW-1: 0] DP_RAM_data_in;
 wire DP_RAM_regW;
 
 //wire rst_Cam_read =1;
-	
+	reg  [AW-1: 0] DP_RAM_addr_out;	
 // Conexion VGA Driver
 
-//wire [DW-1:0]data_RGB332;  // salida del driver VGA al puerto
+wire [14:0] data_mem;
 wire [DW-1:0]data_RGB444;  // salida del driver VGA al puerto
 wire [9:0]VGA_posX;		   // Determinar la pos de memoria que viene del VGA
-wire [8:0]VGA_posY;		   // Determinar la pos de memoria que viene del VGA
+wire [9:0]VGA_posY;		   // Determinar la pos de memoria que viene del VGA
 
 
 /* ****************************************************************************
@@ -108,13 +111,14 @@ Instancia del modulo disennado cam_read - Captura de datos y downsampler
  cam_read Camera_Read(
  
 		// Entradas
-		.CAM_PCLK(CAM_PCLK),
+		
 		.rst(rst),
+		.CAM_PCLK(CAM_PCLK),
 		.CAM_VSYNC(CAM_VSYNC),
 		.CAM_HREF(CAM_HREF),
 		.CAM_px_data(CAM_px_data),
-		.Photo_button(Photo_button),
-		.Video_button(Video_button),
+//		.Photo_button(Photo_button),
+//		.Video_button(Video_button),
 		
 		// Salidas
 		.DP_RAM_addr_in(DP_RAM_addr_in),
@@ -143,7 +147,7 @@ se recomiendia dejar DW a 8, con el fin de optimizar recursos  y hacer RGB 332
 **************************************************************************** */
 buffer_ram_dp #(AW,DW)
 	DP_RAM(  
-	.clk_w(clk), 
+	.clk_w(CAM_PCLK), 
 	.addr_in(DP_RAM_addr_in), 
 	.data_in(DP_RAM_data_in),
 	.regwrite(DP_RAM_regW), 
@@ -179,7 +183,7 @@ always @ (VGA_posX, VGA_posY) begin
 		if ((VGA_posX>CAM_SCREEN_X-1) |(VGA_posY>CAM_SCREEN_Y-1))
 			//DP_RAM_addr_out=CAM_SCREEN_X*CAM_SCREEN_Y;
 			//DP_RAM_addr_out=160*120;
-			DP_RAM_addr_out=15'b111111111111111;
+			DP_RAM_addr_out=160*120;
 		else
 			DP_RAM_addr_out=VGA_posX+VGA_posY*CAM_SCREEN_X;
 end

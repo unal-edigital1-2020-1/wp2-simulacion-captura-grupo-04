@@ -3,7 +3,7 @@
 module buffer_ram_dp#( 
 	parameter AW = 15, // Cantidad de bits  de la direccin 
 	parameter DW = 12, // cantidad de Bits de los datos 
-	parameter   imageFILE= "C:\Users\FABIa\Documents\GitHub\Proyecto_Final_final_digital\wp2-simulacion-captura-grupo-04\src\project_1.srcs\sources_1\new\imagen.men")
+	parameter   imageFILE= "C:/Users/FABIa/Documents/GitHub/Proyecto_Final_final_digital/wp2-simulacion-captura-grupo-04/src/project_1.srcs/sources_1/new/imagen.men")
 	(  
 	input  clk_w, 
 	input  [AW-1: 0] addr_in, 
@@ -18,7 +18,7 @@ module buffer_ram_dp#(
 
 // Calcular el nmero de posiciones totales de memoria 
 localparam NPOS = 2 ** AW; // Memoria
-
+localparam imagesize=160*120;
  reg [DW-1: 0] ram [0: NPOS-1]; 
 
 
@@ -29,14 +29,14 @@ always @(posedge clk_w) begin
 end
 
 //	 Lectura  de la memoria port 2 
-always @(posedge clk_r) begin 
+always @(*) begin 
 		data_out <= ram[addr_out]; 
 end
 
 
 initial begin
 	$readmemh(imageFILE, ram);
-	ram[15'b111111111111111] = 12'b000000000000;  
+	ram[imagesize] = 12'b000000000000;  
 end
 
 /*

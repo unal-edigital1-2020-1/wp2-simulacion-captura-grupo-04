@@ -15,7 +15,7 @@ module VGA_Driver640x480 (
 localparam SCREEN_X = 640; 	// tamaÒo de la pantalla visible en horizontal 
 localparam FRONT_PORCH_X =16;  
 localparam SYNC_PULSE_X = 96;
-localparam BACK_PORCH_X = 28; //48
+localparam BACK_PORCH_X = 48; //28
 localparam TOTAL_SCREEN_X = SCREEN_X+FRONT_PORCH_X+SYNC_PULSE_X+BACK_PORCH_X; 	// total pixel pantalla en horizontal 
 
 
@@ -26,11 +26,11 @@ localparam BACK_PORCH_Y = 33;
 localparam TOTAL_SCREEN_Y = SCREEN_Y+FRONT_PORCH_Y+SYNC_PULSE_Y+BACK_PORCH_Y; 	// total pixel pantalla en Vertical 
 
 
-reg  [9:0] countX = SCREEN_X;
-reg  [9:0] countY = SCREEN_Y;
+reg  [9:0] countX;
+reg  [9:0] countY;
 
-assign posX    = countX;
-assign posY    = countY;
+assign posX = countX;
+assign posY = countY;
 
 assign pixelOut = (countX<SCREEN_X) ? (pixelIn) : (12'b000000000000) ;
 
@@ -45,13 +45,13 @@ always @(posedge clk) begin
 	end
 	else begin 
 		if (countX >= (TOTAL_SCREEN_X-1)) begin
-			countX <= 0;
-			if (countY >= (TOTAL_SCREEN_Y-1)) begin
-				countY <= 0;
-			end 
-			else begin
+		  countX <= 0;
+		  if (countY >= (TOTAL_SCREEN_Y-1)) begin
+		      countY <= 0;
+		  end 
+		  else begin
 				countY <= countY + 1;
-			end
+		  end
 		end 
 		else begin
 			countX <= countX + 1;

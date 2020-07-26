@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+`timescale 10ns / 1ns
 
 module cam_read #(
 		parameter AW = 15
@@ -8,12 +8,12 @@ module cam_read #(
 		input CAM_VSYNC,
 		input CAM_HREF,
 		input [7:0] CAM_px_data,
-		input Photo_button,
-		input Video_button,
+//		input Photo_button,
+//		input Video_button,
 
-		output reg [AW-1:0] DP_RAM_addr_in = -1,
-		output reg [11:0] DP_RAM_data_in = -1,
-		output reg DP_RAM_regW = -1
+		output reg [AW-1:0] DP_RAM_addr_in = 0,
+		output reg [11:0] DP_RAM_data_in = 0,
+		output reg DP_RAM_regW = 0
    );
 	
 	reg [2:0] state=1;
@@ -42,7 +42,7 @@ module cam_read #(
 		1:		// Valores iniciales
 			begin
 				cont_href[15:0]=16'h0000;
-				DP_RAM_addr_in=0;								
+				DP_RAM_addr_in=15'b1111_1111_1111_111;								
 				if(pas_vsync && !CAM_VSYNC) state=2;
 			end
 			
@@ -60,7 +60,7 @@ module cam_read #(
 				end 
 				else if(CAM_VSYNC) 
 						state=1;
-				else if(Photo_button)
+				else if(0)
 						state = 4;
 			end
 			
@@ -78,7 +78,7 @@ module cam_read #(
 				begin
 					DP_RAM_data_in[7:0] = {CAM_px_data[7:0]};
 					DP_RAM_regW = 1;
-					if(DP_RAM_addr_in < 19199) DP_RAM_addr_in = DP_RAM_addr_in + 1;
+					if(DP_RAM_addr_in < 19200|DP_RAM_addr_in==15'b1111_1111_1111_111) DP_RAM_addr_in = DP_RAM_addr_in + 1;
 					cont_pixel = cont_pixel +1;
 					
 				end
@@ -91,7 +91,7 @@ module cam_read #(
 		begin
 			DP_RAM_regW = 0;
 			
-			if(Video_button)
+			if(0)
 				state = 1;
 		end
 		endcase

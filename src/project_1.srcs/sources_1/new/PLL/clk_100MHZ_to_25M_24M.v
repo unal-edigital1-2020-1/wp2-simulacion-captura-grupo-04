@@ -69,18 +69,18 @@
 (* CORE_GENERATION_INFO = "clk_100MHZ_to_25M_24M,clk_wiz_v3_6,{component_name=clk_100MHZ_to_25M_24M,use_phase_alignment=true,use_min_o_jitter=false,use_max_i_jitter=false,use_dyn_phase_shift=false,use_inclk_switchover=false,use_dyn_reconfig=false,feedback_source=FDBK_AUTO,primtype_sel=MMCM_ADV,num_out_clk=2,clkin1_period=10.000,clkin2_period=10.000,use_power_down=false,use_reset=true,use_locked=true,use_inclk_stopped=false,use_status=false,use_freeze=false,use_clk_valid=false,feedback_type=SINGLE,clock_mgr_type=MANUAL,manual_override=false}" *)
 module clk_100MHZ_to_25M_24M
  (// Clock in ports
-  input         CLK_IN1, //Reloj de entrada de 100 MHZ
+  input         CLK_IN1, // 100MHz
   // Clock out ports
-  output        CLK_OUT1, // Reloj de salida de 24 MHZ
-  output        CLK_OUT2, // Reloj de salida de 25 MHZ
+  output        CLK_OUT1, // 25MHz
+  output        CLK_OUT2, // 24MHz
   // Status and control signals
-  input         RESET
-  //output        LOCKED
+  input         RESET,
+  output        LOCKED
  );
 
   // Input buffering
   //------------------------------------
-  IBUFG clkin1_buf
+  BUFG clkin1_buf
    (.O (clkin1),
     .I (CLK_IN1));
 
@@ -114,14 +114,14 @@ module clk_100MHZ_to_25M_24M
     .COMPENSATION         ("ZHOLD"),
     .STARTUP_WAIT         ("FALSE"),
     .DIVCLK_DIVIDE        (1),
-    .CLKFBOUT_MULT_F      (9.750),
+    .CLKFBOUT_MULT_F      (12.000),
     .CLKFBOUT_PHASE       (0.000),
     .CLKFBOUT_USE_FINE_PS ("FALSE"),
-    .CLKOUT0_DIVIDE_F     (40.625),
+    .CLKOUT0_DIVIDE_F     (48.000),
     .CLKOUT0_PHASE        (0.000),
     .CLKOUT0_DUTY_CYCLE   (0.500),
     .CLKOUT0_USE_FINE_PS  ("FALSE"),
-    .CLKOUT1_DIVIDE       (39),
+    .CLKOUT1_DIVIDE       (50),
     .CLKOUT1_PHASE        (0.000),
     .CLKOUT1_DUTY_CYCLE   (0.500),
     .CLKOUT1_USE_FINE_PS  ("FALSE"),
@@ -185,4 +185,7 @@ module clk_100MHZ_to_25M_24M
 
 
 
-endmodule
+endmodule 
+
+
+

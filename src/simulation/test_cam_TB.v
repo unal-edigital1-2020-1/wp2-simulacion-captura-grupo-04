@@ -9,7 +9,6 @@ module test_cam_TB;
 	reg CAM_vsync;
 	reg CAM_href;
 	reg [7:0] CAM_px_data;
-
 	// Outputs
 	wire VGA_Hsync_n;
 	wire VGA_Vsync_n;
@@ -20,27 +19,33 @@ module test_cam_TB;
 	wire CAM_pwdn;
 	wire CAM_reset;
 
-	// Instantiate the Unit Under Test (UUT)
+    wire clk25M;
+	
+	//cables de revison de los lectura y escritura de datos
     wire [11:0] data_mem;
+    wire [14:0] DP_RAM_addr_out;
+    wire DP_RAM_regW;
 	wire [14:0] DP_RAM_addr_in;
 	wire [11:0] DP_RAM_data_in;
-	wire [14:0] DP_RAM_addr_out;
-
+	
+    // Instantiate the Unit Under Test (UUT)
 	test_cam uut (
 	    //inputs 
 		.clk(clk), 
 		.rst(rst), 
+		
 		.VGA_Hsync_n(VGA_Hsync_n), 
 		.VGA_Vsync_n(VGA_Vsync_n), 
 		.VGA_R(VGA_R), 
 		.VGA_G(VGA_G), 
 		.VGA_B(VGA_B), 
-		
-	   .data_mem(data_mem),
-	   .DP_RAM_addr_in(DP_RAM_addr_in),
-	   .DP_RAM_data_in(DP_RAM_data_in),
-	   .DP_RAM_addr_out(DP_RAM_addr_out),
-		
+		.clk25M(clk25M),
+	  
+	    .DP_RAM_addr_in(DP_RAM_addr_in),
+	    .DP_RAM_data_in(DP_RAM_data_in),
+	    .DP_RAM_regW(DP_RAM_regW),
+	    .DP_RAM_addr_out(DP_RAM_addr_out),
+		.data_mem(data_mem),
 		
 		
 		
@@ -60,22 +65,19 @@ module test_cam_TB;
 		pclk = 0;
 		CAM_vsync = 1;
 		CAM_href = 0;
-     CAM_px_data=8'b11110000;
+        CAM_px_data=8'b00001111;
 		//CAM_px_data = 8'b00000000;
-   	// Wait 100 ns for global reset to finish
 		#20;
 		rst = 0;
-		img_generate=1;
-
-		
+		img_generate=1;	
 	end
 
 	always #0.5 clk  = ~clk;
  	always #2 pclk  = ~pclk;
 	
 	
-	reg [9:0]line_cnt=0;
-	reg [9:0]row_cnt=0;
+	reg [8:0]line_cnt=0;
+	reg [6:0]row_cnt=0;
 	
 	parameter TAM_LINE=320;	// es 160x2 debido a que son dos pixeles de RGB
 	parameter TAM_ROW=120;
@@ -83,70 +85,66 @@ module test_cam_TB;
 	parameter BLACK_TAM_ROW=4;
 	
 	/*************************************************************************
-			INICIO DE SIMULACION DE SEâ€”ALES DE LA CAMARA 	
+			INICIO DE SIMULACION DE SEÑALES DE LA CAMARA 	
 	**************************************************************************/
-	/*simulaciÃ›n de contador de pixeles para  general Href y vsync*/
+	/*simulación de contador de pixeles para  general Href y vsync*/
 	initial forever  begin
 	//CAM_px_data=~CAM_px_data;
-		@(posedge pclk) begin
-		if (img_generate==1) begin
-			line_cnt=line_cnt+1;
-			if (line_cnt >TAM_LINE-1+BLACK_TAM_LINE) begin
-				line_cnt=0;
-				row_cnt=row_cnt+1;
-				if (row_cnt>TAM_ROW-1+BLACK_TAM_ROW) begin
-					row_cnt=0;
-					
-				end
-			end
-		end
+	   @(posedge pclk) begin
+	       if (img_generate==1) begin
+	           line_cnt=line_cnt+1;
+	           if (line_cnt >TAM_LINE-1+BLACK_TAM_LINE) begin
+	               line_cnt=0;
+	               row_cnt=row_cnt+1;
+	               if (row_cnt>TAM_ROW-1+BLACK_TAM_ROW) begin
+	                   row_cnt=0;	
+	               end
+			   end
+		  end
 		end
 	end
 
-	/*simulaciÃ›n de la seÃ’al vsync generada por la camara*/	
+	/*simulación de la señal vsync generada por la camara*/	
 	initial forever  begin
 		@(posedge pclk) begin 
-		if (img_generate==1) begin
-			if (row_cnt==0)begin
-				CAM_vsync  = 1;
-				
-			end 
-			if (row_cnt==BLACK_TAM_ROW/2)begin
-				CAM_vsync  = 0;
-				
-				
-			end
-		end
+		  if (img_generate==1) begin
+		      if (row_cnt==0)begin
+		          CAM_vsync  = 1;
+		      end 
+		      if (row_cnt==BLACK_TAM_ROW/2)begin
+		          CAM_vsync  = 0;	
+		      end
+		  end
 		end
 	end
 	
-	/*simulaciÃ›n de la seÃ’al href generada por la camara*/	
+	/*simulación de la señal href generada por la camara*/	
 	initial forever  begin
-		@(negedge pclk) begin 
-		if (img_generate==1) begin
-		if (row_cnt>BLACK_TAM_ROW-1)begin
-			if (line_cnt==0)begin
-				CAM_href  = 1; 
-				//CAM_px_data=~CAM_px_data;				
-			
-
-			end
-		end
-			if (line_cnt==TAM_LINE)begin
-				CAM_href  = 0;
-			end
-		end
-		end
+	   @(negedge pclk) begin 
+	       if (img_generate==1) begin
+	           if (row_cnt>BLACK_TAM_ROW-1)begin
+	               if (line_cnt==0)begin
+	                   CAM_href  = 1; 
+	                   //CAM_px_data=~CAM_px_data;
+	               end
+	           end
+	           if  (line_cnt==TAM_LINE)begin 
+	               CAM_href  = 0;
+		       end
+		   end
+	   end
 	end
+	/*************************************************************************
+			PRUEBAS DE COLOR	
+	**************************************************************************/
 	
-	    reg [1:0]cont2=0;
+	reg [1:0]cont2=0;
 	  
-    initial forever begin
-
-        @(posedge pclk) begin
-                if (cont2==0)begin
-                    CAM_px_data=~CAM_px_data;
-                end
+    initial forever begin 
+        @(negedge pclk) begin
+            if (cont2==0)begin
+                CAM_px_data=~CAM_px_data;
+            end
 //            if(cont2==0)begin
 //                CAM_px_data=8'b11110000;
 //            end
@@ -164,7 +162,7 @@ module test_cam_TB;
     end
 
 	/*************************************************************************
-			FIN SIMULACIâ€œN DE SEâ€”ALES DE LA CAMARA 	
+			FIN SIMULACION DE SEÑALES DE LA CAMARA 	
 	**************************************************************************/
 	
 	/*************************************************************************
