@@ -150,6 +150,158 @@ Salidas (Outputs):
 - **[11:0] DP_RAM_data_in:** Registro de 12 bits relativo a la información específica de cada píxel dibujado en pantalla.
 - **DP_RAM_regW:** Registro de 1 bit encargado de avisar el momento en que la información de color de cada píxel ([11:0] DP_RAM_data_in) ya ha sido almacenada correctamente, para su envío.
 
+Antes de empezar a hablar de la máquina de estados, es preciso definir los parámetros de control de la misma:
+
+	reg [2:0] state=1;
+	reg pas_vsync = 0;
+	reg cont = 1'b0;
+	reg [15:0] cont_href=16'h0000;
+	reg pas_href= 0;
+	reg [15:0] cont_pixel=16'h0000;
+	reg [15:0] cont_pclk=16'h0000;
+	
+- **[2:0] state:** Estado, su valor va a decidir en qué parte de la máquina de estados nos vamos a encontrar.
+- **pas_vsync:** valor anterior de vsync.
+- **cont:** Contador de un sólo bit, que va a oscilar entre 0 y 1.
+- **[15:0] cont_href:** Contador de href.
+- **pas_href:** Valor anterior de href.
+- **[15:0] cont_pixel:** Contador de píxeles.
+- **[15:0] cont_pclk:** Contador del reloj de píxeles.
+
+Lo último que es preciso realizar antes de hablar de la máquina de estados, es de la vuelta a valores iniciales, lo que es el ‘reset’, que devolverá nuestros registros a valores conocidos e iniciales:
+
+    if (rst) begin
+		
+	DP_RAM_addr_in=0;
+	cont_href[15:0]=16'h0000;
+	state=1;pas_vsync=0;
+			
+    end else 
+
+En esta parte, se puede evidenciar que, al tener el reset en 1 (high), pasará lo siguiente:
+
+- DP_RAM_addr_in volverá a valer cero.
+- cont_href volverá a cero.
+- state será 1, lo cual nos posicionará al inicio de la máquina de estados.
+- pas_vsync volverá a cero.
+
+Todo esto funciona junto al reset general, lo cual nos posicionará al principio, previo a la primera captura de datos, por lo cual estos registros también volverán a sus respectivos estados iniciales. La máquina de estados funcionará de la siguiente manera:
+
+imagen
+
+Que, en el módulo también constará de 4 partes (casos), explicados a continuación:
+
+#### Caso 1: Vuelta a cero (valores iniciales)
+
+	1:		// Valores iniciales
+		begin
+			cont_href[15:0]=16'h0000;
+			DP_RAM_addr_in=15'b1111_1111_1111_111;								
+			if(pas_vsync && !CAM_VSYNC) begin
+			    state=2;
+			end
+		end
+			
+Parecerá tonto hacer dos vueltas a cero en dos momentos consecutivos, pero esto trae una razón, no siempre va a suceder en dos momentos consecutivos, porque la vuelta a cero relativa al reset sucede únicamente cuando el pulsador correspondiente es presionado, de otra manera ese paso es saltado, además que, lo único que coincide en ambas puestas a cero, es la devolución de cont_href a cero, en este estado, cuando state=1, o bueno, a 3’b001, que es lo mismo, pasarán dos cosas, además de la devolución a cero de cont_href antes mencionada:
+
+DP_RAM_addr_in se verá posicionado en su última posición, lo cual, al siguiente lo desbordara y volverá a cero, es un método efectivo, cuando se quiere iniciar en cero.
+
+Únicamente, cuando pas_vsync esté en 1, y CAM_VSYNC en 0, se procederá al siguiente estado, en ese momento state=2 o bueno 3’b010, que es lo mismo.
+
+#### Caso 2: Contador de href y primer registro
+
+	2:		// Contador HREF
+		begin
+			if(!pas_href && CAM_HREF) begin
+				cont_href = cont_href +1;
+				cont_pixel = 0;
+				state = 3;
+				DP_RAM_data_in[11:8] = {CAM_px_data[3:0]};
+				DP_RAM_regW = 0;
+				cont = ~cont;
+				cont_pclk = cont_pclk + 1;
+					
+			end 
+			else if(CAM_VSYNC) 
+				state=1;
+			else if(0)
+				state = 4;
+			end
+			
+Al inicio veremos tres caminos a seguir:
+
+pas_href=0 y CAM_HREF=1
+	
+Si se cumple esto, lo que se hará es incrementar en 1 cont_href, se volverá a cero cont_pixel, pasaremos al tercer estado con state=3 (o 3’b011, ya saben cómo funciona esto), a continuación escribimos los primeros (últimos, de [11:8]) bits correspondientes a los 4 bits de rojo, es decir los últimos (primeros, de [3:0]) bits del primer byte recibido, ponemos DP_RAM_regW en cero, lo que significa no enviar aún el registro de 12 bits, ya que aún no se ha escrito correctamente, cont cambiará de 0 a 1 o de 1 a 0 según el caso, como si de un tipo de clk se tratase, y finalmente aumentaremos en 1 cont_pclk.
+
+CAM_VSYNC=1: Cuando sucede esto, significa que estamos al final del frame, por lo que volveremos a state=1 o lo mismo, volveremos al primer caso de la máquina de estados.
+
+Photo_button=1: Cuando el pulsador correspondiente es presionado, pasaremos al estado 4, que, en pocas palabras (porque más adelante será explicado) congelaremos la imagen actual, (tomaremos la foto).
+
+#### Caso 3: Captura de datos
+
+	begin
+		if(CAM_HREF) begin  
+			if (cont==0)
+			begin
+				DP_RAM_data_in[11:8] = {CAM_px_data[3:0]};
+				DP_RAM_regW = 0;
+				cont_pclk = cont_pclk + 1;
+			end
+			else 
+			begin
+				DP_RAM_data_in[7:0] = {CAM_px_data[7:0]};
+				DP_RAM_regW = 1;
+				if(DP_RAM_addr_in < 19200|DP_RAM_addr_in==15'b1111_1111_1111_111) DP_RAM_addr_in = DP_RAM_addr_in + 1;
+				cont_pixel = cont_pixel +1;
+					
+			end
+			cont = ~cont;
+				
+		end else state=2;
+	end
+
+La razón de ser del presente módulo (cam_read) es este caso, en este estado, lo que se hace, es capturar los datos de los dos bytes, en nuestro registro de 12 bits, para completar el RGB 444 que necesitamos para darle color al pixel, empecemos:
+
+Si CAM_HREF=1 empezamos la captura de datos, ¿recuerdan el contador cont que habíamos creado previamente y descrito su comportamiento?, bien, en este momento entendemos que, este contador de un bit nos es útil para contar dos “ciclos de reloj”, para saber cuándo estamos leyendo el primer byte, y cuándo el segundo byte. 
+
+Cuando nuestro cont=0,  escribimos los primeros (últimos, del [11:8]) bits, correspondientes a los últimos (primeros, del [3:0]) bits del primer byte, los rojos, volvemos DP_RAM_regW a cero, porque no vamos a escribir (enviarlo) aún y aumentamos en uno el cont_pclk.
+
+En caso que cont no sea 0, esto significa que es 1, porque es un registro de 1 bit, pues sencillo, significa que ya escribimos, bien sea en el paso inmediatamente anterior, o en el caso 2, en este momento escribimos los últimos (primeros, del [7:0]) bits, correspondientes a todo el segundo byte de datos de color, los 4 bits de verde, y los 4 bits de azul. A este momento de nuestra travesía, nuestro registro de 12 bits, correspondiente al RGB 444 del que hemos estado hablando desde hace un rato ya, estará listo, es perfecto, ya tiene los 4 bits del rojo, los 4 bits del verde y los 4 bits del azul, en perfecto orden, hacemos DP_RAM_regW 1 para avisar que ya está listo.
+
+Finalmente, luego de avisar que ya tenemos todo listo en este registro, nos hacemos una pregunta, una muy importante, ¿Estamos al final de la pantalla?, ¿es este el último pixel del frame?, de eso hará juez la línea 80, en caso que no sea así, aumentamos en uno la dirección de entrada y finalmente incrementamos el contador de píxeles, porque siempre queremos saber dónde estamos.
+
+Al terminar este proceso, bien sea de escribir el primero o el segundo byte de información en nuestro registro de 12 bits, negamos el valor de nuestro contador que funcionaba como reloj de un bit, para avisar que vamos a cambiar de byte.
+
+Finalmente nos devolvemos a nuestro caso 2.
+
+#### Caso 4: “Tomar foto”
+
+	4:		// Mostrar imagen		
+	begin
+		DP_RAM_regW = 0;
+			
+		if(0)
+				state = 1;
+	end
+	endcase
+
+El objetivo del proyecto siempre fué el de hacer una cámara fotográfica, más o menos, lo que queremos, es lo de todas las cámaras, congelar un momento de la vida a modo de imagen, “detener el tiempo”, así sea en una pantalla, así sea por un momento, aunque no dure para siempre. Lo que queremos, es presenciar un instante en específico por un ratico, suena bastante filosófico, es casi poético. Al final, la fotografía es un arte, y detrás de ella, hay otro arte, la ingeniería aplicada, en nuestro caso, somos artistas, que nos dedicamos todo un semestre a buscar la manera de hacer nuestro arte, de “esculpir” esta fotografía. Has adivinado bien, nuestro cincel es la descripción de hardware, escupiendo estos módulos para encontrar los registros y las conexiones oportunas para cumplir con nuestro cometido.
+
+El párrafo anterior, nos recuerda que, debemos buscar la manera de tomar nuestra fotografía, es bastante sencillo, llegar al caso 4 requiere haber presionado el pulsador Photo_button, esta acción, implicará directamente, que el registro de un bit DP_RAM_regW vuelva a cero, no seguirá enviando, ni leyendo nada más, ahí se va a detener, la imagen en pantalla se congelará, habremos tomado nuestra fotografía, habremos expresado nuestro arte.
+
+Pero, sería muy tonto tomar sólo esa única fotografía, ¿cómo hacemos que el tiempo vuelva a transcurrir en nuestra pantalla?, ¿y si no me gustó la foto?, ¿si quiero capturar otro momento?, es sencillo, pero un poco triste a la vez, nuestra cámara no es capaz de generar una imagen como lo hace la del teléfono, no hay forma de capturar un pantallazo, como lo hacemos con la pantalla de nuestro PC, ese momento quedará únicamente, en nuestra memoria. Para que el tiempo vuelva a transcurrir en la pantalla, y regresar a la realidad, debemos presionar un pulsador, bautizado como Video_button, este, nos devolverá al primer caso, lo cual volverá a hacer que siga registrando y renovando con cada ciclo de reloj que pase, nuestro registro de 12 bits y el píxel en consecuencia. Ahora que lo pienso bien, deberían llamarse Dream_button y Reality_button, pero no es algo que cualquiera entendería tan sólo ver dos pulsadores en frente, que esto quede entre los dos, ¿vale?
+
+#### Para finalizar
+
+    	pas_vsync = CAM_VSYNC;
+	end
+
+    endmodule
+
+¿No se nos olvida nada?, ah, si, se nos olvida una cosa, nunca explicamos cómo sabremos cuál era el estado anterior de VSYNC, en ninguna parte del HDL de arriba lo dice, si VSYNC nunca cambiase, nos sería imposible salir del primer caso. Entonces, por fuera de los case (de la máquina de estados), pero por cada ciclo de reloj, seguimos actualizando pas_vsync para siempre estar enterados del estado previo del mismo. De esta manera, podemos, satisfactoriamente, dar por finalizada la explicación del módulo cam_read y la máquina de estados.
+
+
 ### Explicación módulo VGA Driver
 
     (
