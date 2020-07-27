@@ -186,7 +186,7 @@ En esta parte, se puede evidenciar que, al tener el reset en 1 (high), pasará l
 
 Todo esto funciona junto al reset general, lo cual nos posicionará al principio, previo a la primera captura de datos, por lo cual estos registros también volverán a sus respectivos estados iniciales. La máquina de estados funcionará de la siguiente manera:
 
-imagen
+![maquina_estados](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/maquina_estados.png)
 
 Que, en el módulo también constará de 4 partes (casos), explicados a continuación:
 
