@@ -486,6 +486,8 @@ VGA_Driver640x480:
     
 Módulo interno convert addr:
 
+![convert addr](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/modulo%20convert%20addr.png)
+
     always @ (VGA_posX, VGA_posY) begin
 		if ((VGA_posX>CAM_SCREEN_X-1) |(VGA_posY>CAM_SCREEN_Y-1))
 			DP_RAM_addr_out=160*120;
