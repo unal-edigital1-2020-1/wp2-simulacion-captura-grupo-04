@@ -60,7 +60,7 @@ module cam_read #(
 				end 
 				else if(CAM_VSYNC) 
 						state=1;
-				else if(0)
+				else if(0)////		input Photo_button,
 						state = 4;
 			end
 			
@@ -90,7 +90,7 @@ module cam_read #(
 		begin
 			DP_RAM_regW = 0;
 			
-			if(0)
+			if(0)//		input Video_button,
 				state = 1;
 		end
 		endcase
