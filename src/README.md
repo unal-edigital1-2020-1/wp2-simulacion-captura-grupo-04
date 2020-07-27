@@ -43,11 +43,11 @@ Previo a esta entrega se había realizado el módulo de la memoria RAM teniendo 
 
 ## Desarrollo de la simulación
 
-#### Explicación funcionamiento general
+### Explicación funcionamiento general
 
 Como se puede ver en la imagen, se deben recibir los datos y señales que vienen de la cámara. Estos se procesan en el test cam que consta de 4 módulos distintos. El primero es el PLL que da relojes de distintas frecuencias (25 MHz y 24 MHz). El siguiente sería la captura de datos que recibe la información de la cámara, crea los registros con pixeles en formato RGB444 y los envía a una dirección específica de la memoria buffer RAM. La memoria buffer RAM almacena los datos en un registro de 12 bits de ancho (tamaño del píxel) con capacidad de almacenar 19200 pixeles en las direcciones indicadas y además recibe direcciones de salida desde el VGA driver. El VGA driver genera la imagen que se va a mostrar en la pantalla teniendo en cuenta la posición en la que debe ir cada píxel guardado en la memoria buffer RAM y rellenando con color negro los sitios en donde no va la imagen, pues la imagen es de 160x120 y la pantalla es de 640x480.
 
-#### Explicación módulo memoria buffer RAM
+### Explicación módulo memoria buffer RAM
 
 Para comenzar el diseño del módulo de la memoria buffer RAM primero se tiene que entender las capacidades de la FPGA. La memoria de la FPGA tiene una capacidad de 4860 kbits, esto equivale a 607,5 kBytes. La idea es que la memoria RAM ocupe como máximo 50% de este espacio entonces la memoria máxima a utilizar sería de 303,75 kBytes o 311 040 Bytes. El formato a utilizar es el RGB444 pues es el que se necesita para proyectar el resultado en la pantalla que vamos a utilizar. El tamaño de imagen es el más pequeño que entrega la cámara que es 160x120. Esta cámara puede entregar una imagen de 640x480 pero ocupa más espacio del deseado pues: 
 
@@ -104,11 +104,53 @@ Para la lectura de los datos guardados se espera a que haya un cambio en la dire
 
 Para iniciar la memoria buffer RAM inicialmente se lee un archivo .men que contiene los datos predeterminados de 19200 pixeles en formato RGB444 y a la última posición de la memoria se le asignan 0s.
 
-#### Explicación módulo captura de datos
+### Explicación módulo captura de datos
+
+Debe existir un módulo encargado de realizar la captura de datos y escribir un registro del tamaño deseado, en nuestro caso RGB 444, este formato es el elegido, debido a que, por medio y gracias a este, trabaja la conexión de video VGA, en otras palabras RGB de 12 bits, 4 por cada color.
 
 
 
-#### Explicación módulo VGA Driver
+Debido a que, la recepción de datos es por medio de dos bytes, de la forma 8’bXXXX_RRRR para el primero y 8’bGGGG_BBBB para el segundo, lo que se quiere, es escribir un registro de 12 bits con la información de los cuatro bits de cada color. De acuerdo al datasheet del módulo óptico OV7670:
+
+
+
+Se quiere que se tomen los bits 0, 1, 2 y 3 del primer byte, y todos los del segundo byte. Para esta tarea, es que existe el módulo cam_read.v. Inicialmente, se deben declarar las entradas y salidas del módulo, por medio de las cuales se va a comunicar con los demás.
+
+    parameter AW = 15 
+		)(
+		input rst,
+		input CAM_PCLK,
+		input CAM_VSYNC,
+		input CAM_HREF,
+		input [7:0] CAM_px_data,
+    //		input Photo_button,
+    //		input Video_button,
+
+		output reg [AW-1:0] DP_RAM_addr_in = 0,
+		output reg [11:0] DP_RAM_data_in = 0,
+		output reg DP_RAM_regW = 0
+
+Parámetro:
+
+- **AW:** Tamaño (en bits) del registro de dirección del píxel.
+
+Entradas (Inputs):
+
+- **rst**: Reset
+- **CAM_PCLK:** Señal del reloj de píxeles (Pixel Clock)
+- **CAM_VSYNC:** Señal de sincronización vertical, emitida una vez al finalizar el dibujo de cada frame.
+- **CAM_HREF:** Señal de referencia horizontal, emitida una vez al finalizar el dibujo de cada línea del frame.
+- **[7:0] CAM_px_data:** Registro de 8 bits (1 byte), referido a cada byte enviado por la cámara, explicado al inicio de este apartado.
+- **Photo_button:** Señal binaria generada por un pulsador físico, para congelar la imagen registrada por el sensor óptico. (Tomar fotografía)
+- **Video_button:** Señal binaria generada por un pulsador físico, para regresar al flujo de fotogramas normal, registrado por el sensor óptico. (Volver a vídeo)
+
+Salidas (Outputs):
+	
+- **[AW-1:0] DP_RAM_addr_in:** Registro de ‘AW’ bits relativo a la dirección del píxel dibujado.
+- **[11:0] DP_RAM_data_in:** Registro de 12 bits relativo a la información específica de cada píxel dibujado en pantalla.
+- **DP_RAM_regW:** Registro de 1 bit encargado de avisar el momento en que la información de color de cada píxel ([11:0] DP_RAM_data_in) ya ha sido almacenada correctamente, para su envío.
+
+### Explicación módulo VGA Driver
 
     (
         //entradas 
@@ -189,7 +231,7 @@ Asignando un valor al dato de la salida, tenemos que si countX es menor a 640 se
 
 Realizando el conteo de las posiciones en X y Y en las variables dependientes Hsync Vsync se establece una sincronización con los flancos de subida del reloj, es decir que si los contadores son mayores  o iguales al tamaño de la pantalla -1 los contadores se reinician en Cero (esquina superior izquierda) de lo contrario su valor aumenta +1 pixel de salida.
 
-#### Explicación módulo test cam
+### Explicación módulo test cam
 
     input wire clk,           // board clock: 100 MHz 
     input wire rst,    // reset button
@@ -314,7 +356,7 @@ Se le asignan las salidas del control de la cámara.
     assign CAM_pwdn = 0;			// power down mode 
     assign CAM_reset = 0;
     
-#### Explicación módulo test bench
+### Explicación módulo test bench
 
     // Inputs
 	reg clk;
