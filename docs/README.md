@@ -7,7 +7,7 @@
 - Fabian Steven Galindo Peña
 - Jefersson Garzón Romero
 - Juan Camilo Rojas Dávila 
-- Sebastian Pérez Peñaloza
+- Sebastián Pérez Peñaloza
 
 ## Contenido
 
@@ -108,11 +108,11 @@ Para iniciar la memoria buffer RAM inicialmente se lee un archivo .men que conti
 
 Debe existir un módulo encargado de realizar la captura de datos y escribir un registro del tamaño deseado, en nuestro caso RGB 444, este formato es el elegido, debido a que, por medio y gracias a este, trabaja la conexión de video VGA, en otras palabras RGB de 12 bits, 4 por cada color.
 
-
+![Entradas RGB](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/puertos%20vga.png)
 
 Debido a que, la recepción de datos es por medio de dos bytes, de la forma 8’bXXXX_RRRR para el primero y 8’bGGGG_BBBB para el segundo, lo que se quiere, es escribir un registro de 12 bits con la información de los cuatro bits de cada color. De acuerdo al datasheet del módulo óptico OV7670:
 
-
+![pixeles cam_read](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/RGB444%20data_sheet_camara.png)
 
 Se quiere que se tomen los bits 0, 1, 2 y 3 del primer byte, y todos los del segundo byte. Para esta tarea, es que existe el módulo cam_read.v. Inicialmente, se deben declarar las entradas y salidas del módulo, por medio de las cuales se va a comunicar con los demás.
 
@@ -385,6 +385,8 @@ Realizando el conteo de las posiciones en X y Y en las variables dependientes Hs
 
 ### Explicación módulo test cam
 
+![test cam](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/modulo_test_cam.png)
+
     input wire clk,           // board clock: 100 MHz 
     input wire rst,    // reset button
     
@@ -509,6 +511,8 @@ Se le asignan las salidas del control de la cámara.
     assign CAM_reset = 0;
     
 ### Explicación módulo test bench
+
+![test bench](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/modulo_test_cam_TB%7D.png)
 
     // Inputs
 	reg clk;
