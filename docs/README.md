@@ -642,15 +642,15 @@ Finalmente se usan las salidas del test cam para crear un archivo .txt en un for
 
 Errores del cam read: Primero se utilizó  un cam read sin máquinas de estados y se presentaron problemas de sincronización de los pixeles. como se ven en las imágenes donde en la primera queríamos hacer líneas horizontales de un pixel y de dos colores  distintos, y se observan corrimientos de las líneas.
 
-
+![prueba 1](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Simulaciones/Pruebas/Prueba1.png)
 
 En la segunda imagen se quería mostrar líneas verticales de 1 pixel de dos colores distintos. Se observa el corrimiento y además cada 24 pixeles se repite el mismo pixel.
 
-
+![prueba 2](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Simulaciones/Pruebas/Prueba2.png)
 
 Por lo tanto se decidió realizar la máquina de estados explicada anteriormente. Haciendo esto se obtuvieron los siguientes resultados:
 
-
+![prueba 3](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Simulaciones/Pruebas/Prueba%203.png)
 
 Se quiso poner un color cada dos pixeles, donde se puede notar un engrasamiento de un color cada 24 pixeles, error que permanecía de las anteriores pruebas. Por lo tanto, se buscó el error en otro módulo. Finalmente se identificó el error en el módulo PLL, encontrando que se estaba utilizando una versión desactualizada del mismo dada por el profesor de laboratorio. Y al corregirlo se obtuvo el siguiente resultado. 
 
