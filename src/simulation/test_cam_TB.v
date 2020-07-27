@@ -65,7 +65,7 @@ module test_cam_TB;
 		pclk = 0;
 		CAM_vsync = 1;
 		CAM_href = 0;
-        CAM_px_data=8'b00001111;
+        CAM_px_data=8'b11111111;
 		//CAM_px_data = 8'b00000000;
 		#20;
 		rst = 0;
@@ -121,10 +121,28 @@ module test_cam_TB;
 	/*simulación de la señal href generada por la camara*/	
 	initial forever  begin
 	   @(negedge pclk) begin 
+//	       if(cont4==0)begin
+	           
+//	           if (cont3==0)begin
+//	               CAM_px_data=00000101;
+//	           end
+//	           else begin
+//	               CAM_px_data=00010001;
+//	           end
+//	       end
+//	       else begin
+//	       if (cont3==0)begin
+//	               CAM_px_data=00001111;
+//	           end
+//	           else begin
+//	               CAM_px_data=11110000;
+//	           end
+//	       end    
 	       if (img_generate==1) begin
 	           if (row_cnt>BLACK_TAM_ROW-1)begin
 	               if (line_cnt==0)begin
-	                   CAM_href  = 1; 
+	                   CAM_href  = 1;
+//	                   cont4=cont4+1;
 	                   //CAM_px_data=~CAM_px_data;
 	               end
 	           end
@@ -132,6 +150,7 @@ module test_cam_TB;
 	               CAM_href  = 0;
 		       end
 		   end
+//		   cont3=cont3+1;
 	   end
 	end
 	/*************************************************************************
@@ -139,28 +158,46 @@ module test_cam_TB;
 	**************************************************************************/
 	
 	reg [1:0]cont2=0;
-	  
-    initial forever begin 
-        @(negedge pclk) begin
-            if (cont2==0)begin
-                CAM_px_data=~CAM_px_data;
-            end
+	reg cont3=0;
+	reg cont4=0;
+	initial forever begin
+	   @(negedge pclk)begin
+	     CAM_px_data=~CAM_px_data;  
+	   
+	   end 
+	end
+	//Lineas horizontales
+	
+	
+	
+    //Lineas Verticales de dos colores
+//    initial forever begin 
+//        @(negedge pclk) begin
+        
 //            if(cont2==0)begin
-//                CAM_px_data=8'b11110000;
+//                CAM_px_data=8'b11111111;
 //            end
 //            else if (cont2==1)begin
-//                CAM_px_data=8'b11110000;
+//                CAM_px_data=8'b11111111;
 //            end
 //            else if (cont2==2) begin
-//                CAM_px_data=8'b00001111;
+//                CAM_px_data=8'b00000000;
 //            end
 //            else begin
-//                CAM_px_data=8'b00001111;
+//                CAM_px_data=8'b00001110;
 //            end 
-            cont2=cont2+1;
-        end
-    end
-
+//            cont2=cont2+1;
+//        end
+//    end
+////Cuadritos de dos colores 
+//    initial forever begin 
+//        @(negedge pclk) begin
+//            if (cont2==0)begin
+//                CAM_px_data=~CAM_px_data;
+//            end
+//            cont2=cont2+1;
+//        end
+//    end
 	/*************************************************************************
 			FIN SIMULACION DE SEÑALES DE LA CAMARA 	
 	**************************************************************************/
