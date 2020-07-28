@@ -13,7 +13,8 @@ module cam_read #(
 
 		output reg [AW-1:0] DP_RAM_addr_in = 0,
 		output reg [11:0] DP_RAM_data_in = 0,
-		output reg DP_RAM_regW = 0
+		output reg DP_RAM_regW = 0,
+		output reg [2:0] state
    );
 	
 	reg [2:0] state=1;

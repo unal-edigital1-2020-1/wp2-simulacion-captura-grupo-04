@@ -19,6 +19,7 @@ module test_cam(
 	output wire DP_RAM_regW,
 	output reg [14:0] DP_RAM_addr_out,
 	output wire [11:0] data_mem,
+	output wire [2:0] state,
 	
 	//CAMARA input/output
 	
@@ -108,7 +109,8 @@ Instancia del modulo disennado cam_read - Captura de datos y downsampler
 		// Salidas
 		.DP_RAM_addr_in(DP_RAM_addr_in),
 		.DP_RAM_data_in(DP_RAM_data_in),
-		.DP_RAM_regW(DP_RAM_regW)
+		.DP_RAM_regW(DP_RAM_regW),
+		.state(state)
    );
 
 

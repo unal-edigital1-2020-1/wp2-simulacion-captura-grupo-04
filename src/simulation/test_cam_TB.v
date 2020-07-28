@@ -8,7 +8,7 @@ module test_cam_TB;
 	reg pclk;
 	reg CAM_vsync;
 	reg CAM_href;
-	reg [7:0] CAM_px_data;
+	
 	// Outputs
 	wire VGA_Hsync_n;
 	wire VGA_Vsync_n;
@@ -20,13 +20,17 @@ module test_cam_TB;
 	wire CAM_reset;
 
     wire clk25M;
-	
+	wire [2:0]state;
 	//cables de revison de los lectura y escritura de datos
+	reg [7:0] CAM_px_data;
+	wire [11:0] DP_RAM_data_in;
+    wire [14:0] DP_RAM_addr_in;
+    wire DP_RAM_regW;
+    
     wire [11:0] data_mem;
     wire [14:0] DP_RAM_addr_out;
-    wire DP_RAM_regW;
-	wire [14:0] DP_RAM_addr_in;
-	wire [11:0] DP_RAM_data_in;
+    
+	
 	
     // Instantiate the Unit Under Test (UUT)
 	test_cam uut (
@@ -46,7 +50,7 @@ module test_cam_TB;
 	    .DP_RAM_regW(DP_RAM_regW),
 	    .DP_RAM_addr_out(DP_RAM_addr_out),
 		.data_mem(data_mem),
-		
+		.state(state),
 		
 		
 		.CAM_xclk(CAM_xclk), 
@@ -65,7 +69,7 @@ module test_cam_TB;
 		pclk = 0;
 		CAM_vsync = 1;
 		CAM_href = 0;
-        CAM_px_data=8'b11111111;
+        CAM_px_data=8'b11110000;
 		//CAM_px_data = 8'b00000000;
 		#20;
 		rst = 0;
@@ -160,12 +164,12 @@ module test_cam_TB;
 	reg [1:0]cont2=0;
 	reg cont3=0;
 	reg cont4=0;
-	initial forever begin
-	   @(negedge pclk)begin
-	     CAM_px_data=~CAM_px_data;  
+//	initial forever begin
+//	   @(negedge pclk)begin
+//	     CAM_px_data=~CAM_px_data;  
 	   
-	   end 
-	end
+//	   end 
+//	end
 	//Lineas horizontales
 	
 	
@@ -190,14 +194,14 @@ module test_cam_TB;
 //        end
 //    end
 ////Cuadritos de dos colores 
-//    initial forever begin 
-//        @(negedge pclk) begin
-//            if (cont2==0)begin
-//                CAM_px_data=~CAM_px_data;
-//            end
-//            cont2=cont2+1;
-//        end
-//    end
+    initial forever begin 
+        @(negedge pclk) begin
+            if (cont2==0)begin
+                CAM_px_data=~CAM_px_data;
+            end
+            cont2=cont2+1;
+        end
+    end
 	/*************************************************************************
 			FIN SIMULACION DE SEÑALES DE LA CAMARA 	
 	**************************************************************************/
