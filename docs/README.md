@@ -12,8 +12,7 @@
 ## Contenido
 
 * Introducción
-* Objetivos
-* Cámara 
+* Objetivos 
 * Desarrollo de la simulación
   * Explicación funcionamiento general
   * Explicación módulo memoria buffer RAM
