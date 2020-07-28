@@ -672,4 +672,38 @@ Además se hicieron pruebas de un solo color, líneas verticales y líneas horiz
 
 ![vertical 2](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Simulaciones/Corrctos/Lineas%20Verticales%202.png)
 
+**Simulaciones:**
+
+Simulación Máquina de estados:
+- De estados 1 a 2 y de 2 a 3:
+
+![123](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Simulaciones/Simulacion%20maquina%20de%20estados.png)
+
+Como se puede ver, la simulación se va a mantener en el estado 1 mientras vsync (azul) sea 1. Apenas este cambie va a entrar al estado 2. En el estado 2 va a esperar a que href (amarillo) o vsync sea 1. Como se puede ver, apenas href cambia a 1, se va a pasar al estado 3.
+
+- De estados 3 a 2 y de 2 a 3:
+
+![323](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Simulaciones/Simulacion%20maquina%20de%20estados%203_2_3.png)
+
+En los cambios de fila se hacen pasos rápidos al estado 2. Con href = 0 se puede ver el cambio de fila y el paso al estado 2 hasta que href vuelva a ser 1. Como se ve en la imagen los cambios de la máquina de estados también dependen de un posedge del pclk.
+
+- De estados 3 a 2 y de 2 a 1:
+
+![321](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Simulaciones/Simulacion%20maquina%20de%20estados%203_2_1.png)
+
+Ya para terminar la imagen href pasa a ser 0, llegando así otra vez al estado 2 y luego vsync pasa a ser 1 llegando finalmente al estado 1 hasta que se vaya a generar una nueva imagen.
+
+- Simulación Data in:
+
+![data in](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Simulaciones/Simulacion%20captura%20de%20datos.png)
+
+Como se ve en la imagen utilizamos un contador (amarillo) para cambiar el color cada dos pixeles. Con la captura de datos se van construyendo los pixeles 0f0 y f0f (magenta) que se van guardando en las direcciones mostradas cada que el registro de escritura (azul) sea 1.
+
+- Simulación data out:
+
+![data out](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Simulaciones/simulacion%20datamem%20addrout.png)
+
+En la imagen se muestra la dirección del dato que se le pide a la ram (magenta) desde el VGA driver, donde data_mem (azul) es el dato que envía la ram al VGA driver y este convierte al formato necesario para la visualización (VGA_R,VGA_G,VGA_B).
+
+Como se puede observar en las imágenes de la simulación de data in y data out se está haciendo un correcto trato de los datos ya que los datos que se están guardando en la dirección de entrada(DP_RAM_addr_in) son los mismos que está sacando la dirección de salida(DP_RAM_addr_out).
 
