@@ -708,5 +708,197 @@ Como se puede observar en las imágenes de la simulación de data in y data out 
 
 ##Implementación
 
-Si todo lo anterior no generó suficiente emoción, ahora se viene la parte más divertida y gratificante de todo el proyecto, hacerlo material, tangible, ver algo de la realidad en nuestra pantalla. Antes que nada, es responsabilidad mía avisar que, a partir de este punto nos queda un trabajo muy laborioso, que seguramente va a requerir un montón de horas de trabajo y van a aparecer muchísimos errores. Aquí voy a tomarme a la tarea de explicar, de manera minuciosa, cada cosa que me ha sucedido (que no son pocas) y cómo lo he podido solucionar. Pues bueno, me dejo de palabrería, y... #¡vamos a por ello!
+Si todo lo anterior no generó suficiente emoción, ahora se viene la parte más divertida y gratificante de todo el proyecto, hacerlo material, tangible, ver algo de la realidad en nuestra pantalla. Antes que nada, es responsabilidad mía avisar que, a partir de este punto nos queda un trabajo muy laborioso, que seguramente va a requerir un montón de horas de trabajo y van a aparecer muchísimos errores. Aquí voy a tomarme a la tarea de explicar, de manera minuciosa, paso a paso lo que se hizo, además cada error que ha sucedido (que no son pocos) y cómo lo he podido solucionar. Pues bueno, me dejo de palabrería, y... ¡vamos a por ello!
 
+Para poder implementar nuestro proyecto, nuestra cámara RGB de 12 bits, con resolución de 160x120 píxeles, necesitaremos los siguientes materiales:
+
+- Una FPGA (La que uso aquí corresponde al modelo Nexys A7 100T, disponible en el almacén del laboratorio)
+- Un Arduino (Recomiendo mil veces más el MEGA por cuestiones que más adelante explicaré, pero en este caso, usaré un UNO, que requiere un poco más de atención, pero vale muchísimo la pena, y por menos $$$)
+- Un módulo OV7670 sin FIFO (Es nuestra cámara, bastante económica, por favor, sin FIFO)
+- Muchos, en serio, muchos, jumpers.
+- Una pantalla con entrada VGA (la de video los computadores de hace 10 años)
+- Dos resist
+- Un cable VGA (para conectar la FPGA con la pantalla)
+- Un cable micro USB (la pfga trae uno en la caja, pero si resulta muy largo o incómodo, puedes usar el mismo con el que conectas el teléfono al PC)
+- Un cable USB-B (el mismo de las impresoras, es para conectar el arduino al PC)
+- Una placa de pruebas (O de prototipado, como lo conozcas)
+- Y más importante, ¡mucha actitud! (Esto último hará muchísima falta, en serio, muchísima)
+
+#¿FPGA?
+
+Bien, para iniciar, ya que hemos hecho la correspondiente descripción de hardware, ya que hemos visto que nuestras simulaciones corren perfectamente. Ahora debemos pensar en dejar de poner a la computadora a hacer todo el trabajo, y responsabilizar a la FPGA de esto. Exacto, vamos a programar la FPGA.
+
+<FPGA>
+
+Hemos mencionado mucho esa sigla, pero aún no hemos definido qué es o para qué sirve una FPGA como tal, nadie tendría una nevera en su casa si no supieran que sirve para mantener fríos y conservar los alimentos, ademas de lo caras que son. Lo mismo sucede con las FPGA.
+
+Una FPGA, "Field Programmable Gate Array" por sus siglas en inglés, es eso, una matriz de compuertas lógicas programables. Imaginemos que tenemos una cuadrícula llena de compuertas lógicas, pero no están conectadas entre sí, nuestro trabajo, a partir del HDL y la descripción de hardware (que no es programación, aunque a simple vista y para el ojo no entrenado lo parezca) definimos la forma y el orden en que vamos a conectarlas, para que cumplan con la función que queremos, como lo muestra la siguiente imagen:
+
+<ARRAY>
+
+Aunque no lo parezca, el uso de las FPGA es más común de lo que parece. Seguramente tendrás alguna que otra en tu habitación o en la sala de estar, lo has adivinado, las pantallas, como televisores o monitores de PC, tienen una de esas por dentro, más o menos, esa no la podemos programar, pero a través de ella es que la imagen pasa de los puertos de entrada, como el HDMI, el VGA, el cable Coaxial de la parabólica o la entrada por componentes, hasta la pantalla, para que lo podamos ver. No sé si te hayas preguntado esto alguna vez, pero, antes de tomar este curso, dentro de mi cabeza no hallaba cómo un simple cable podía transportar una imagen hasta la pantalla, eso era un total misterio para mi, pero ya no, es bueno matar la ignorancia de vez en cuando.
+
+#Conexiones
+
+Ya que he inctroducido un poco el concepto, entremos en materia, veamos detenidamente el plano de nuestro diseño:
+
+<PLANO>
+
+Listo, ahora que sabemos que la cámara tiene 18 pines por conectar, de los cuales 12 van directo a la FPGA, que son estos:
+
+- 8 pines de datos D[7:0]
+- PCLK
+- XCLK
+- VSYNC
+- HREF
+
+Bien, pero, ¿cómo hacemos que la FPGA sepa cuál puerto corresponde a qué cosa?, hay que definir eso en un archivo "constraint" que nos va a enlazar cada entrada y salida a un puerto físico en la tarjeta. Este archivo trae la extensión .xdc, pero, tranquilo, Digilent (la empresa que hace NEXYS) nos ofrece un repositorio donde encontramos los .xdc base para absolutamente todas sus tarjetas de desarrollo. (Lo puedes hallar aquí: https://github.com/Digilent/digilent-xdc ). Luego de haberlo descargado, hacemos lo siguiente:
+
+1. Copiamos el arhivo correspondiente:
+
+<>
+
+2. Lo pegamos en la raíz de nuestro proyecto:
+
+<>
+
+3. Vamos a nuestro proyecto en Vivado, en el apartado "Sources", click contrario sobre la carpeta "Constraints", add file, y buscamos nuestro .xdc y lo agregamos.
+
+<>
+
+4. Abrimos el archivo, y, de acuerdo con el datasheet de la FPGA que usamos, bautizamos los puertos y botoneras correspondientes a los inputs y outputs de nuestro módulo principal, debería quedar algo de este estilo: (Una vez le hallas pillado el tranquillo, no debería ser nada confuso)
+
+<>
+
+Perfecto, ahora podemos programar la FPGA, bueno, no, aún falta un par de cosas por hacer. Seguramente, cuando estabas haciendo las simulaciones habrás hecho un TestBench (Banco de Pruebas), pues ahora no será necesario, de hecho, nos hace estorbo, lo debemos quitar para que nos deje sintetizar el proyecto, mi recomendación es hacer una copia de seguridad con cada avance importante, para siempre poder volver a un lugar seguro (Yo hice un total de 8, entonces ya sabes), para quitar el TestBench basta con dar click contrario sobre él en Vivado y darle a la gran X que aparece en el submenú que aparece.
+
+<>
+
+Para que la FPGA sepa qué es lo que debe hacer, en qué orden y en qué momento, debe ser programada a partir de un archivo Bitstream, que por su nombre podemos deducir que es quien le da las instrucciones para que sepa por dónde mandar el flujo de la información, lo que conocemos como DataPath, pero aplicado, para ello nos dirigimos a este símbolo en la parte superior de la interfaz, a continuación, el ordenador se encargará de sintetizar y luego generar el Bitstream que necesitamos:
+
+<>
+
+Aquí es donde aparece el primer error, a mí me tomó más o menos media hora entender el por qué y cómo solucionarlo, dejo el pantallazo para que puedas guiarte:
+
+<>
+
+No te asustes, esto es apenas el principio, lo que debes hacer, es agregar esta línea: set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets CAM_PCLK_IBUF]; en el .xdc. Esto sucede porque estamos llamando un reloj que no está siendo generado desde la propia tarjeta, sino que es externo, pues lo tomamos de la cámara, así que agregando esa línea, hacemos entender que es algo de generación externa, y que no debe preocuparse por marcarlo como error, porque garantizamos que llegará desde afuera.
+
+Uff, ya pasamos ese obstáculo, y los que nos faltan...
+
+También puede que aparezca este otro error:
+
+<>
+
+Esto, no me tomó mucho entender por qué sucedía, resulta que, los puertos que ahí especifica, están siendo declarados como inputs o outputs, sin en realidad serlo, más bien son wires, por lo que al quitar el prefijo input o output de cada cual, solucionaremos con efectividad el problema. Esto es de tener cuidado y saber muy bien a qué se refiere cada cosa que ponemos en los módulos.
+
+Ya no deberíamos tener muchos más problemas con la generación del Bitstream, el truco está en revisar bien la sintaxis dentro de cada módulo y ser cuidadosos con lo que ponemos en cada, es preferible revisar dos veces antes de pasar por alto cualquier cosa.
+
+#Primer Testeo
+
+¡Bien!, ya generamos el Bitstream, lo siguiente, es hacer esta sencilla conexión, la FPGA por medio de USB al PC, y a la pantalla por medio de VGA, de esta forma:
+
+<>
+
+Encendemos la Nexys por medio del botón deslizante POWER y abrimos el "Hardware Manager", yendo a la pestaña "FLOW" y luego a la opción "HARDWARE MANAGER". 
+
+<>
+
+Ahora, donde antes aparecía PROJECT MANAGER, ahora dice HARDWARE MANAGER, y justo debajo está la opción Open target, le picamos ahí, y le damos a Auto Connect. Si hemos conectado bien la tarjeta, debería aparecer en la pestaña "HARDWARE":
+
+<>
+<>
+
+Lo que sigue es ir a "Program device" y en la ventana emergente ya debería aparecer el archivo bitstream enrutado. (si no, es porque no lo hemos generado, en ese caso, nos devolvemos al paso en que lo hacíamos), le damos a Program y esperamos unos segundos. Si lo hemos hecho todo de forma correcta, ahora deberíamos poder visualizar algo en la pantalla, el ideal es un patrón de barras horizontales, que corresponden al archivo image.men, que es quien inicializa nuestra memoria, y como no le estamos entregando nada nuevo aún, debería ser una imagen estática como la siguiente:
+
+<>
+
+Lo más seguro es que no salga bien a la primera, si lo has logrado al primer intento, ¡Enhorabuena!, si no, no te agobies, a mí tampoco, puede aparecerte cualquiera de estos errores, o incluso alguno más:
+
+<>
+ 
+De nuevo, no te preocupes, este tipo de errores es parte del proceso de aprendizaje. Hallar los errores que me llevaron a cosas como esas, me tomó aproximadamente 8-10 horas, tal vez más, el problema está en la memoria, si, el módulo de la RAM, bautizado buffer_ram_dp.v, puede haber algún error en algún reloj, de pronto estás leyendo un flanco que no es, o tal vez estás lamando mal al archivo que contiene este patrón, prueba a modificarle ese tipo de cosas, no al azar, busca la razón para hacer cada cambio, y si definitivamente te sientes perdido, sientete libre de compararlo con este: <enlace> . Cuando tengas esa imagen en tu pantalla, estará todo correcto y podemos pasar al siguiente.
+	
+#Test I2C
+
+Ya sé, estás ansioso por ver cómo sacas fotografías, yo también lo esstuve, y por afanado, me salieron muchísimos errores, así que, lo siguiente, es la configuración de la cámara.
+
+Resulta que, esta cámara es tan flexible, que puedes configurar muchas cosas de ella, como el formato de salida (YUV, RGB 555/565/444), podemos voltear la imagen, ponerla en negativo, a blanco y negro, podemos configurar cosas como el contraste, bastantes cosas, para ello disponemos de 42 direcciones diferentes. No te asustes, no vamos a usarlas todas al tiempo, voy a darte las opciones de configuración correctas para cada cosa.
+
+Hagamos algo divertido primero, sé que lo esperabas desde el principio, vamos a conectar todo, los 18 pines de la cámara, de la siguiente manera:
+
+<>
+
+¿Recuerdas que al inicio mencioné que hay que tener cuidado con el Arduino UNO?, bueno, no se te olvide poner las resistencias, son importantísimas, trata que ambas sean del mismo valor y mayores a 2.7k, recomiendo usar de 10k. No se te olvide conectar todos los GND juntos, es importante tener la misma referencia para todos.
+
+Ya hecho esto, aún no vamos a sacar fotos, calmado, primero debemos asegurarnos que cada conexión está bien hecha y que el I2C de la cámara está bien conectado al Arduino, este error me costó más de 10 horas hallar su raíz, no quieres pasar por eso, en serio.
+
+Para verificar que está bien conectado, teniendo la Nexys encendida, programada y funcionando, debemos abrir este sencillo programa en Arduino y correrlo: <> lo que hace es buscar si hay algún dispositivo I2C conectado, si lo hay, mostrará su dirección, es un número HEX, que debemos apuntar por ahí, por lo general para esta cámara es 0x21.
+
+Si nos sale esto al correr el I2C scan, no te friegues la cabeza, estás conectando mal los pines SIOC y SIOD, es todo, esa tontera me costó muchísimo hallar, y es por no saber lo que era. 
+
+<>
+
+En su momento revisé muchísimas veces todo el HDL, el xdc, las conexiones de la Nexys, y creí que tenía bien conectado la I2C, pero no, recuerda: SIOC va con A5 y SIOD con A4, cada uno conectado a su respectiva resistencia mayor a 2.7k, preferible de 10k, y al otro lado de la resistencia PullUp 3.3V del Arduino. Si tienes todo bien conectado, esto aparecerá:
+
+<>
+
+En este momento, tengo la responsabilidad de mostrar el por qué es tan importante tener bien conectado el I2C, si lo conectas mal, aparecerán cosas de este estilo:
+
+<>
+
+Si sigues bien los pasos que he descrito antes, no debería haber lío.
+
+#Configuración de la cámara
+
+Ya sabiendo que la cámara está bien conectada, y a qué puerto está conectada, estaremos a realmente poco de sacar nuestra foto.
+
+Pero, de nuevo, no nos afanemos, si intentamos sacar la foto apenas a la primera configurada, sin siquiera saber qué o cómo estamos configurando, saldrán cosas como esta:
+
+<>
+
+<>
+
+Si, son fotos, pero muy horribles, y no es la idea. Así que prestar atención, antes de continuar, apártate de la Nexys, el Arduino y la cámara, sé que quieres moverle cosas y sacar unas buenas fotos, pero espera, primero debes leer y entender muy bien qué hace cada puerto de comunicación dentro de la cámara, tomate tu tiempo para leer esto detenidamente, no hay afán: http://web.mit.edu/6.111/www/f2016/tools/OV7670_2006.pdf 
+
+¿Ya esta?, perfecto, ahora que eres un ducho en lo que se refiere a entender cómo está funcionando la cámara, podemos pasar a configurarla. Primero, hagamos un testeo de su funcionamiento, sin tomar fotos ni nada. Como bien sabes, hay un modo para ello, tú tranquilo, puedes usar el siguiente programa para tu arduino: <> Acto seguido, con la Nexys funcionando, mostrando las barras horizontales, conecta el Arduino al PC, y sube ese código, debería aparecer algo como esto:
+
+<>
+
+En caso que te salga algo como esto:
+
+<>
+
+Es porque estás contando mal el número de píxeles que hay por frame, de nuevo, en el móduo de buffer_ram_dp (es bastante problemático, a decir verdad) verifica esto en dicho módulo, recuerda que, si es 160x120 la resolución que estamos usando, eso nos da 19200 píxeles por frame, pero recuerda empezar en cero, así que el tope es 19199.
+
+<>
+
+Si, por el contrario, te sale con los colores un poco raros, distintos a los del ejemplo de arriba, puede ser por dos cosas, bien porque estás escribiendo mal el registro en el módulo de captura de datos (cam_read.v) o porque estamos usando formatos distintos en la cámara y en el HDL, cualquiera que sea, es sólo hacerlos coincidir y ya está.
+
+#Captura de imagen
+
+En este momento, podemos quitar el modo de prueba, ya que podemos garantizar que esto va a funcionar de maravilla, puedes usar este código de Arduino para ello: <> El cambio es que ya no escribimos las direcciones relativas al testeo, y nos dará esto:
+
+<>
+
+Sip, una imagen más oscura que el corazón de ella. Párate un momento a pensar ¿por qué?, tómate tu tiempo...
+
+Bien, es porque no hemos configurado cosas como el brillo, o el contraste, por eso se ve tan oscuro, te juro que en frente de la cámara en este momento hay algo más de lo que se puede ver.
+
+Para escribir esas direcciones, llamamos a set_color_matrix, dentro de nuestro programita de arduino, el código resultante es este: <> Y bueno, como una imagen vale más que mil palabras, lo prometido es deuda, dejaré que mi Duraludon hable por mí:
+
+<>
+
+A que es muy mono, ¿verdad?
+
+También dejo un vídeo mostrando el funcionamiento del botón de foto, que congela la imagen actual, y el de video, que vuelve a mostrar la imagen en tiempo real: 
+
+Una forma muy buena de que está tomando una buena gama de colores, puede ser tomarle foto a algo muy colorido, como esto:
+
+<>
+
+Ahí va otra prueba de vídeo: 
+
+Eso no es todo, yo he podido llegar hasta aquí, pero, estoy seguro que se puede mejorar de muchas maneras, hay muchas aplicaciones para esto, y eso, eso te lo dejo a tí, espero que busques la manera de seguir mejorando esta cámara y de darle alguna utilidad más que la de tomar fotos.
+
+##Conclusiones
