@@ -798,26 +798,31 @@ Ya no deberíamos tener muchos más problemas con la generación del Bitstream, 
 
 ¡Bien!, ya generamos el Bitstream, lo siguiente, es hacer esta sencilla conexión, la FPGA por medio de USB al PC, y a la pantalla por medio de VGA, de esta forma:
 
-<>
+![12](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Implementacion/12.jpeg)
 
 Encendemos la Nexys por medio del botón deslizante POWER y abrimos el "Hardware Manager", yendo a la pestaña "FLOW" y luego a la opción "HARDWARE MANAGER". 
 
-<>
+![13](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Implementacion/13.png)
 
 Ahora, donde antes aparecía PROJECT MANAGER, ahora dice HARDWARE MANAGER, y justo debajo está la opción Open target, le picamos ahí, y le damos a Auto Connect. Si hemos conectado bien la tarjeta, debería aparecer en la pestaña "HARDWARE":
 
-<>
-<>
+![14](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Implementacion/14.png)
+![15](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Implementacion/15.png)
 
-Lo que sigue es ir a "Program device" y en la ventana emergente ya debería aparecer el archivo bitstream enrutado. (si no, es porque no lo hemos generado, en ese caso, nos devolvemos al paso en que lo hacíamos), le damos a Program y esperamos unos segundos. Si lo hemos hecho todo de forma correcta, ahora deberíamos poder visualizar algo en la pantalla, el ideal es un patrón de barras horizontales, que corresponden al archivo image.men, que es quien inicializa nuestra memoria, y como no le estamos entregando nada nuevo aún, debería ser una imagen estática como la siguiente:
+Lo que sigue es ir a "Program device" y en la ventana emergente ya debería aparecer el archivo bitstream enrutado. (si no, es porque no lo hemos generado, en ese caso, nos devolvemos al paso en que lo hacíamos), le damos a Program y esperamos unos segundos.
 
-<>
+![16](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Implementacion/16.png)
+
+ Si lo hemos hecho todo de forma correcta, ahora deberíamos poder visualizar algo en la pantalla, el ideal es un patrón de barras horizontales, que corresponden al archivo image.men, que es quien inicializa nuestra memoria, y como no le estamos entregando nada nuevo aún, debería ser una imagen estática como la siguiente:
+ 
+![17](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Implementacion/17.jpg)
 
 Lo más seguro es que no salga bien a la primera, si lo has logrado al primer intento, ¡Enhorabuena!, si no, no te agobies, a mí tampoco, puede aparecerte cualquiera de estos errores, o incluso alguno más:
 
-<>
+![18](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Implementacion/18.jpg)
+![19](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Implementacion/19.jpg)
  
-De nuevo, no te preocupes, este tipo de errores es parte del proceso de aprendizaje. Hallar los errores que me llevaron a cosas como esas, me tomó aproximadamente 8-10 horas, tal vez más, el problema está en la memoria, si, el módulo de la RAM, bautizado buffer_ram_dp.v, puede haber algún error en algún reloj, de pronto estás leyendo un flanco que no es, o tal vez estás lamando mal al archivo que contiene este patrón, prueba a modificarle ese tipo de cosas, no al azar, busca la razón para hacer cada cambio, y si definitivamente te sientes perdido, sientete libre de compararlo con este: <enlace> . Cuando tengas esa imagen en tu pantalla, estará todo correcto y podemos pasar al siguiente.
+De nuevo, no te preocupes, este tipo de errores es parte del proceso de aprendizaje. Hallar los errores que me llevaron a cosas como esas, me tomó aproximadamente 8-10 horas, tal vez más, el problema está en la memoria, si, el módulo de la RAM, bautizado buffer_ram_dp.v, puede haber algún error en algún reloj, de pronto estás leyendo un flanco que no es, o tal vez estás lamando mal al archivo que contiene este patrón, prueba a modificarle ese tipo de cosas, no al azar, busca la razón para hacer cada cambio, y si definitivamente te sientes perdido, sientete libre de compararlo con este: https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/src/camera/hdl/buffer_ram_dp.v . Cuando tengas esa imagen en tu pantalla, estará todo correcto y podemos pasar al siguiente.
 	
 ## Test I2C
 
