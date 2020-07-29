@@ -826,31 +826,32 @@ De nuevo, no te preocupes, este tipo de errores es parte del proceso de aprendiz
 	
 ## Test I2C
 
-Ya sé, estás ansioso por ver cómo sacas fotografías, yo también lo esstuve, y por afanado, me salieron muchísimos errores, así que, lo siguiente, es la configuración de la cámara.
+Ya sé, estás ansioso por ver cómo sacas fotografías, yo también lo estuve, y por afanado, me salieron muchísimos errores, así que, lo siguiente, es la configuración de la cámara.
 
 Resulta que, esta cámara es tan flexible, que puedes configurar muchas cosas de ella, como el formato de salida (YUV, RGB 555/565/444), podemos voltear la imagen, ponerla en negativo, a blanco y negro, podemos configurar cosas como el contraste, bastantes cosas, para ello disponemos de 42 direcciones diferentes. No te asustes, no vamos a usarlas todas al tiempo, voy a darte las opciones de configuración correctas para cada cosa.
 
-Hagamos algo divertido primero, sé que lo esperabas desde el principio, vamos a conectar todo, los 18 pines de la cámara, de la siguiente manera:
+Hagamos algo divertido primero, sé que lo esperabas desde el principio, vamos a conectar todo, justo como mostraba el plano de más arriba, para no perder el hilo, te lo vuelvo a mostrar:
 
-<>
+![PLANO](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Implementacion/3.png)
 
 ¿Recuerdas que al inicio mencioné que hay que tener cuidado con el Arduino UNO?, bueno, no se te olvide poner las resistencias, son importantísimas, trata que ambas sean del mismo valor y mayores a 2.7k, recomiendo usar de 10k. No se te olvide conectar todos los GND juntos, es importante tener la misma referencia para todos.
 
 Ya hecho esto, aún no vamos a sacar fotos, calmado, primero debemos asegurarnos que cada conexión está bien hecha y que el I2C de la cámara está bien conectado al Arduino, este error me costó más de 10 horas hallar su raíz, no quieres pasar por eso, en serio.
 
-Para verificar que está bien conectado, teniendo la Nexys encendida, programada y funcionando, debemos abrir este sencillo programa en Arduino y correrlo: <> lo que hace es buscar si hay algún dispositivo I2C conectado, si lo hay, mostrará su dirección, es un número HEX, que debemos apuntar por ahí, por lo general para esta cámara es 0x21.
+Para verificar que está bien conectado, teniendo la Nexys encendida, programada y funcionando, debemos abrir este sencillo programa en Arduino y correrlo: https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/src/images/i2c_scan.ino lo que hace es buscar si hay algún dispositivo I2C conectado, si lo hay, mostrará su dirección, está HEX, debemos apuntarlo por ahí, por lo general para esta cámara es 0x21.
 
 Si nos sale esto al correr el I2C scan, no te friegues la cabeza, estás conectando mal los pines SIOC y SIOD, es todo, esa tontera me costó muchísimo hallar, y es por no saber lo que era. 
 
-<>
+![20](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Implementacion/20.jpeg)
 
 En su momento revisé muchísimas veces todo el HDL, el xdc, las conexiones de la Nexys, y creí que tenía bien conectado la I2C, pero no, recuerda: SIOC va con A5 y SIOD con A4, cada uno conectado a su respectiva resistencia mayor a 2.7k, preferible de 10k, y al otro lado de la resistencia PullUp 3.3V del Arduino. Si tienes todo bien conectado, esto aparecerá:
 
-<>
+![21](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Implementacion/21.png)
 
 En este momento, tengo la responsabilidad de mostrar el por qué es tan importante tener bien conectado el I2C, si lo conectas mal, aparecerán cosas de este estilo:
 
-<>
+![22](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Implementacion/22.jpg)
+![23](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Implementacion/23.jpg)
 
 Si sigues bien los pasos que he descrito antes, no debería haber lío.
 
