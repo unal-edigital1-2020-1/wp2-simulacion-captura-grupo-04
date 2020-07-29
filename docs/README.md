@@ -34,7 +34,7 @@ Previo a esta entrega se había realizado el módulo de la memoria RAM teniendo 
 
 ## Objetivos
 
-* Entender el funcionamiento de los distintos módulos a implementar.
+* Entender el funcionamiento de los distintos módulos a implementar y simular.
 * Desarrollar y corregir los módulos necesarios para el funcionamiento del proyecto.
 * Desarrollar habilidades de simulación y diseño de hardware.
 * Probar el diseño con una cámara de verdad.
@@ -907,3 +907,11 @@ Una forma muy buena de que está tomando una buena gama de colores, puede ser to
 ![32](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Implementacion/32.jpg)
 
 # Conclusiones
+
+* Las limitaciones de la memoria de la FPGA no nos permitieron implementar el mayor formato que nos entregaba la cámara que era 640x480 por el formato de color que se manejó (RGB444). Por esto se decidió usar un formato más pequeño que en este caso fue de 160x120 para no tener problema con la memoria.
+* Logramos modificar el módulo de la memoria buffer RAM dp para que se ajustara al formato elegido. 
+* Logramos modificar los valores en el VGA Driver para que se adecuara al formato de imagen elegido.
+* Logramos crear el módulo de captura de datos a partir de una máquina de estados que nos permite tomar fotos o ver en vivo lo que está viendo la cámara. 
+* Entendimos que hacer las cosas sencillas no siempre es lo mejor y por esto al comienzo nuestro módulo de captura de datos no funcionaba correctamente.
+* Aprendimos a configurar la cámara OV7670 para que el formato de color coincidiera con el del hdl.
+* Aprendimos a implementar un proyecto de simulación en algo tangible. 
