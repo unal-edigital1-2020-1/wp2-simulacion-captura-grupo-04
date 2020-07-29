@@ -900,7 +900,7 @@ Para escribir esas direcciones, llamamos a set_color_matrix, dentro de nuestro p
 
 A que es muy mono, ¿verdad?
 
-También dejo un vídeo mostrando el funcionamiento del botón de foto, que congela la imagen actual, y el de video, que vuelve a mostrar la imagen en tiempo real: 
+También dejo un vídeo mostrando el funcionamiento del botón de foto, que congela la imagen actual, y el de video, que vuelve a mostrar la imagen en tiempo real: https://drive.google.com/drive/folders/1RTipbh7Z-yllOz1pHR0LgWt_an0kCfCh?usp=sharing En esta misma carpeta se puede observar el ruido que se generaba cuando no teniamos bien conectado el I2C de la camara.
 
 Una forma muy buena de que está tomando una buena gama de colores, puede ser tomarle foto a algo muy colorido, como esto: 
 
