@@ -897,8 +897,6 @@ Una forma muy buena de que está tomando una buena gama de colores, puede ser to
 
 <>
 
-Ahí va otra prueba de vídeo: 
-
 Eso no es todo, yo he podido llegar hasta aquí, pero, estoy seguro que se puede mejorar de muchas maneras, hay muchas aplicaciones para esto, y eso, eso te lo dejo a tí, espero que busques la manera de seguir mejorando esta cámara y de darle alguna utilidad más que la de tomar fotos.
 
 # Conclusiones
