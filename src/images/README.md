@@ -1,1 +1,1 @@
-Carpeta específica para subir imágenes.
+# Errores de la simulación
