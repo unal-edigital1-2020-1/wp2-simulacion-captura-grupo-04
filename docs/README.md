@@ -742,7 +742,7 @@ Aunque no lo parezca, el uso de las FPGA es más común de lo que parece. Segura
 
 Ya que he inctroducido un poco el concepto, entremos en materia, veamos detenidamente el plano de nuestro diseño:
 
-<PLANO>
+![PLANO](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Implementacion/3.png)
 
 Listo, ahora que sabemos que la cámara tiene 18 pines por conectar, de los cuales 12 van directo a la FPGA, que son estos:
 
@@ -756,31 +756,31 @@ Bien, pero, ¿cómo hacemos que la FPGA sepa cuál puerto corresponde a qué cos
 
 1. Copiamos el arhivo correspondiente:
 
-<>
+![4](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Implementacion/4.png)
 
 2. Lo pegamos en la raíz de nuestro proyecto:
 
-<>
+![5](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Implementacion/5.png)
 
 3. Vamos a nuestro proyecto en Vivado, en el apartado "Sources", click contrario sobre la carpeta "Constraints", add file, y buscamos nuestro .xdc y lo agregamos.
 
-<>
+![6](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Implementacion/6.png)
 
 4. Abrimos el archivo, y, de acuerdo con el datasheet de la FPGA que usamos, bautizamos los puertos y botoneras correspondientes a los inputs y outputs de nuestro módulo principal, debería quedar algo de este estilo: (Una vez le hallas pillado el tranquillo, no debería ser nada confuso)
 
-<>
+![7](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Implementacion/7.png)
 
 Perfecto, ahora podemos programar la FPGA, bueno, no, aún falta un par de cosas por hacer. Seguramente, cuando estabas haciendo las simulaciones habrás hecho un TestBench (Banco de Pruebas), pues ahora no será necesario, de hecho, nos hace estorbo, lo debemos quitar para que nos deje sintetizar el proyecto, mi recomendación es hacer una copia de seguridad con cada avance importante, para siempre poder volver a un lugar seguro (Yo hice un total de 8, entonces ya sabes), para quitar el TestBench basta con dar click contrario sobre él en Vivado y darle a la gran X que aparece en el submenú que aparece.
 
-<>
+![8](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Implementacion/8.png)
 
 Para que la FPGA sepa qué es lo que debe hacer, en qué orden y en qué momento, debe ser programada a partir de un archivo Bitstream, que por su nombre podemos deducir que es quien le da las instrucciones para que sepa por dónde mandar el flujo de la información, lo que conocemos como DataPath, pero aplicado, para ello nos dirigimos a este símbolo en la parte superior de la interfaz, a continuación, el ordenador se encargará de sintetizar y luego generar el Bitstream que necesitamos:
 
-<>
+![9](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Implementacion/9.png)
 
 Aquí es donde aparece el primer error, a mí me tomó más o menos media hora entender el por qué y cómo solucionarlo, dejo el pantallazo para que puedas guiarte:
 
-<>
+![10](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Implementacion/10.png)
 
 No te asustes, esto es apenas el principio, lo que debes hacer, es agregar esta línea: set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets CAM_PCLK_IBUF]; en el .xdc. Esto sucede porque estamos llamando un reloj que no está siendo generado desde la propia tarjeta, sino que es externo, pues lo tomamos de la cámara, así que agregando esa línea, hacemos entender que es algo de generación externa, y que no debe preocuparse por marcarlo como error, porque garantizamos que llegará desde afuera.
 
@@ -788,7 +788,7 @@ Uff, ya pasamos ese obstáculo, y los que nos faltan...
 
 También puede que aparezca este otro error:
 
-<>
+![11](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Implementacion/11.png)
 
 Esto, no me tomó mucho entender por qué sucedía, resulta que, los puertos que ahí especifica, están siendo declarados como inputs o outputs, sin en realidad serlo, más bien son wires, por lo que al quitar el prefijo input o output de cada cual, solucionaremos con efectividad el problema. Esto es de tener cuidado y saber muy bien a qué se refiere cada cosa que ponemos en los módulos.
 
