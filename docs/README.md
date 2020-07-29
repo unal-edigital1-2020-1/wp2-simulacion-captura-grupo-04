@@ -249,7 +249,7 @@ Photo_button=1: Cuando el pulsador correspondiente es presionado, pasaremos al e
 			begin
 				DP_RAM_data_in[7:0] = {CAM_px_data[7:0]};
 				DP_RAM_regW = 1;
-				if(DP_RAM_addr_in < 19200|DP_RAM_addr_in==15'b1111_1111_1111_111) DP_RAM_addr_in = DP_RAM_addr_in + 1;
+			if(DP_RAM_addr_in < 19200|DP_RAM_addr_in==15'b1111_1111_1111_111) DP_RAM_addr_in = DP_RAM_addr_in + 1;
 				cont_pixel = cont_pixel +1;
 					
 			end
