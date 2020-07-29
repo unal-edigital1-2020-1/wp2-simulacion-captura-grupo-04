@@ -706,7 +706,7 @@ En la imagen se muestra la dirección del dato que se le pide a la ram (magenta)
 
 Como se puede observar en las imágenes de la simulación de data in y data out se está haciendo un correcto trato de los datos ya que los datos que se están guardando en la dirección de entrada(DP_RAM_addr_in) son los mismos que está sacando la dirección de salida(DP_RAM_addr_out).
 
-##Implementación
+## Implementación
 
 Si todo lo anterior no generó suficiente emoción, ahora se viene la parte más divertida y gratificante de todo el proyecto, hacerlo material, tangible, ver algo de la realidad en nuestra pantalla. Antes que nada, es responsabilidad mía avisar que, a partir de este punto nos queda un trabajo muy laborioso, que seguramente va a requerir un montón de horas de trabajo y van a aparecer muchísimos errores. Aquí voy a tomarme a la tarea de explicar, de manera minuciosa, paso a paso lo que se hizo, además cada error que ha sucedido (que no son pocos) y cómo lo he podido solucionar. Pues bueno, me dejo de palabrería, y... ¡vamos a por ello!
 
@@ -724,7 +724,7 @@ Para poder implementar nuestro proyecto, nuestra cámara RGB de 12 bits, con res
 - Una placa de pruebas (O de prototipado, como lo conozcas)
 - Y más importante, ¡mucha actitud! (Esto último hará muchísima falta, en serio, muchísima)
 
-#¿FPGA?
+# ¿FPGA?
 
 Bien, para iniciar, ya que hemos hecho la correspondiente descripción de hardware, ya que hemos visto que nuestras simulaciones corren perfectamente. Ahora debemos pensar en dejar de poner a la computadora a hacer todo el trabajo, y responsabilizar a la FPGA de esto. Exacto, vamos a programar la FPGA.
 
@@ -738,7 +738,7 @@ Una FPGA, "Field Programmable Gate Array" por sus siglas en inglés, es eso, una
 
 Aunque no lo parezca, el uso de las FPGA es más común de lo que parece. Seguramente tendrás alguna que otra en tu habitación o en la sala de estar, lo has adivinado, las pantallas, como televisores o monitores de PC, tienen una de esas por dentro, más o menos, esa no la podemos programar, pero a través de ella es que la imagen pasa de los puertos de entrada, como el HDMI, el VGA, el cable Coaxial de la parabólica o la entrada por componentes, hasta la pantalla, para que lo podamos ver. No sé si te hayas preguntado esto alguna vez, pero, antes de tomar este curso, dentro de mi cabeza no hallaba cómo un simple cable podía transportar una imagen hasta la pantalla, eso era un total misterio para mi, pero ya no, es bueno matar la ignorancia de vez en cuando.
 
-#Conexiones
+# Conexiones
 
 Ya que he inctroducido un poco el concepto, entremos en materia, veamos detenidamente el plano de nuestro diseño:
 
@@ -819,7 +819,7 @@ Lo más seguro es que no salga bien a la primera, si lo has logrado al primer in
  
 De nuevo, no te preocupes, este tipo de errores es parte del proceso de aprendizaje. Hallar los errores que me llevaron a cosas como esas, me tomó aproximadamente 8-10 horas, tal vez más, el problema está en la memoria, si, el módulo de la RAM, bautizado buffer_ram_dp.v, puede haber algún error en algún reloj, de pronto estás leyendo un flanco que no es, o tal vez estás lamando mal al archivo que contiene este patrón, prueba a modificarle ese tipo de cosas, no al azar, busca la razón para hacer cada cambio, y si definitivamente te sientes perdido, sientete libre de compararlo con este: <enlace> . Cuando tengas esa imagen en tu pantalla, estará todo correcto y podemos pasar al siguiente.
 	
-#Test I2C
+# Test I2C
 
 Ya sé, estás ansioso por ver cómo sacas fotografías, yo también lo esstuve, y por afanado, me salieron muchísimos errores, así que, lo siguiente, es la configuración de la cámara.
 
@@ -875,7 +875,7 @@ Es porque estás contando mal el número de píxeles que hay por frame, de nuevo
 
 Si, por el contrario, te sale con los colores un poco raros, distintos a los del ejemplo de arriba, puede ser por dos cosas, bien porque estás escribiendo mal el registro en el módulo de captura de datos (cam_read.v) o porque estamos usando formatos distintos en la cámara y en el HDL, cualquiera que sea, es sólo hacerlos coincidir y ya está.
 
-#Captura de imagen
+# Captura de imagen
 
 En este momento, podemos quitar el modo de prueba, ya que podemos garantizar que esto va a funcionar de maravilla, puedes usar este código de Arduino para ello: <> El cambio es que ya no escribimos las direcciones relativas al testeo, y nos dará esto:
 
@@ -901,4 +901,4 @@ Ahí va otra prueba de vídeo:
 
 Eso no es todo, yo he podido llegar hasta aquí, pero, estoy seguro que se puede mejorar de muchas maneras, hay muchas aplicaciones para esto, y eso, eso te lo dejo a tí, espero que busques la manera de seguir mejorando esta cámara y de darle alguna utilidad más que la de tomar fotos.
 
-##Conclusiones
+## Conclusiones
