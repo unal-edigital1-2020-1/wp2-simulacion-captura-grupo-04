@@ -728,13 +728,13 @@ Para poder implementar nuestro proyecto, nuestra cámara RGB de 12 bits, con res
 
 Bien, para iniciar, ya que hemos hecho la correspondiente descripción de hardware, ya que hemos visto que nuestras simulaciones corren perfectamente. Ahora debemos pensar en dejar de poner a la computadora a hacer todo el trabajo, y responsabilizar a la FPGA de esto. Exacto, vamos a programar la FPGA.
 
-<FPGA>
+![FPGA](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Implementacion/1.jpg)
 
 Hemos mencionado mucho esa sigla, pero aún no hemos definido qué es o para qué sirve una FPGA como tal, nadie tendría una nevera en su casa si no supieran que sirve para mantener fríos y conservar los alimentos, ademas de lo caras que son. Lo mismo sucede con las FPGA.
 
 Una FPGA, "Field Programmable Gate Array" por sus siglas en inglés, es eso, una matriz de compuertas lógicas programables. Imaginemos que tenemos una cuadrícula llena de compuertas lógicas, pero no están conectadas entre sí, nuestro trabajo, a partir del HDL y la descripción de hardware (que no es programación, aunque a simple vista y para el ojo no entrenado lo parezca) definimos la forma y el orden en que vamos a conectarlas, para que cumplan con la función que queremos, como lo muestra la siguiente imagen:
 
-<ARRAY>
+![ARRAY](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Implementacion/2.png)
 
 Aunque no lo parezca, el uso de las FPGA es más común de lo que parece. Seguramente tendrás alguna que otra en tu habitación o en la sala de estar, lo has adivinado, las pantallas, como televisores o monitores de PC, tienen una de esas por dentro, más o menos, esa no la podemos programar, pero a través de ella es que la imagen pasa de los puertos de entrada, como el HDMI, el VGA, el cable Coaxial de la parabólica o la entrada por componentes, hasta la pantalla, para que lo podamos ver. No sé si te hayas preguntado esto alguna vez, pero, antes de tomar este curso, dentro de mi cabeza no hallaba cómo un simple cable podía transportar una imagen hasta la pantalla, eso era un total misterio para mi, pero ya no, es bueno matar la ignorancia de vez en cuando.
 
@@ -861,7 +861,7 @@ Pero, de nuevo, no nos afanemos, si intentamos sacar la foto apenas a la primera
 
 Si, son fotos, pero muy horribles, y no es la idea. Así que prestar atención, antes de continuar, apártate de la Nexys, el Arduino y la cámara, sé que quieres moverle cosas y sacar unas buenas fotos, pero espera, primero debes leer y entender muy bien qué hace cada puerto de comunicación dentro de la cámara, tomate tu tiempo para leer esto detenidamente, no hay afán: http://web.mit.edu/6.111/www/f2016/tools/OV7670_2006.pdf 
 
-¿Ya esta?, perfecto, ahora que eres un ducho en lo que se refiere a entender cómo está funcionando la cámara, podemos pasar a configurarla. Primero, hagamos un testeo de su funcionamiento, sin tomar fotos ni nada. Como bien sabes, hay un modo para ello, tú tranquilo, puedes usar el siguiente programa para tu arduino: <> Acto seguido, con la Nexys funcionando, mostrando las barras horizontales, conecta el Arduino al PC, y sube ese código, debería aparecer algo como esto:
+¿Ya esta?, perfecto, ahora que eres un ducho en lo que se refiere a entender cómo está funcionando la cámara, podemos pasar a configurarla. Primero, hagamos un testeo de su funcionamiento, sin tomar fotos ni nada. Como bien sabes, hay un modo para ello, tú tranquilo, puedes usar el siguiente programa para tu arduino: https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/src/images/OV7670_test.ino Acto seguido, con la Nexys funcionando, mostrando las barras horizontales, conecta el Arduino al PC, y sube ese código, debería aparecer algo como esto:
 
 <>
 
@@ -877,7 +877,7 @@ Si, por el contrario, te sale con los colores un poco raros, distintos a los del
 
 ## Captura de imagen
 
-En este momento, podemos quitar el modo de prueba, ya que podemos garantizar que esto va a funcionar de maravilla, puedes usar este código de Arduino para ello: <> El cambio es que ya no escribimos las direcciones relativas al testeo, y nos dará esto:
+En este momento, podemos quitar el modo de prueba, ya que podemos garantizar que esto va a funcionar de maravilla, puedes usar este código de Arduino para ello: https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/src/images/OV7670.ino El cambio es que ya no escribimos las direcciones relativas al testeo, y nos dará esto:
 
 <>
 
