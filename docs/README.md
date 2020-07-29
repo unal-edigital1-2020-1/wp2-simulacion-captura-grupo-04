@@ -706,3 +706,7 @@ En la imagen se muestra la dirección del dato que se le pide a la ram (magenta)
 
 Como se puede observar en las imágenes de la simulación de data in y data out se está haciendo un correcto trato de los datos ya que los datos que se están guardando en la dirección de entrada(DP_RAM_addr_in) son los mismos que está sacando la dirección de salida(DP_RAM_addr_out).
 
+##Implementación
+
+Si todo lo anterior no generó suficiente emoción, ahora se viene la parte más divertida y gratificante de todo el proyecto, hacerlo material, tangible, ver algo de la realidad en nuestra pantalla. Antes que nada, es responsabilidad mía avisar que, a partir de este punto nos queda un trabajo muy laborioso, que seguramente va a requerir un montón de horas de trabajo y van a aparecer muchísimos errores. Aquí voy a tomarme a la tarea de explicar, de manera minuciosa, cada cosa que me ha sucedido (que no son pocas) y cómo lo he podido solucionar. Pues bueno, me dejo de palabrería, y... #¡vamos a por ello!
+
