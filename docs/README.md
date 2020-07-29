@@ -888,24 +888,22 @@ Puede ser por dos cosas, bien porque estás escribiendo mal el registro en el m�
 
 En este momento, podemos quitar el modo de prueba, ya que podemos garantizar que esto va a funcionar de maravilla, puedes usar este código de Arduino para ello: https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/src/images/OV7670.ino El cambio es que ya no escribimos las direcciones relativas al testeo, y nos dará esto:
 
-<>
+![30](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Implementacion/30.jpg)
 
-Sip, una imagen más oscura que el corazón de ella. Párate un momento a pensar ¿por qué?, tómate tu tiempo...
+Si, esta imagen está muy oscura, incluso parece que estuviera apagada. Párate un momento a pensar ¿por qué?, tómate tu tiempo...
 
-Bien, es porque no hemos configurado cosas como el brillo, o el contraste, por eso se ve tan oscuro, te juro que en frente de la cámara en este momento hay algo más de lo que se puede ver.
+Bien, es porque no hemos configurado cosas como el brillo, o el contraste, por eso se ve tan oscuro.
 
-Para escribir esas direcciones, llamamos a set_color_matrix, dentro de nuestro programita de arduino, el código resultante es este: <> Y bueno, como una imagen vale más que mil palabras, lo prometido es deuda, dejaré que mi Duraludon hable por mí:
+Para escribir esas direcciones, llamamos a set_color_matrix, dentro de nuestro programita de arduino, el código resultante es este: https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/src/camera/hdl/OV7670_config/OV7670_config.ino Y bueno, como una imagen vale más que mil palabras, lo prometido es deuda, dejaré que mi Duraludon hable por mí:
 
-<>
+![31](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Implementacion/31.jpg)
 
 A que es muy mono, ¿verdad?
 
 También dejo un vídeo mostrando el funcionamiento del botón de foto, que congela la imagen actual, y el de video, que vuelve a mostrar la imagen en tiempo real: 
 
-Una forma muy buena de que está tomando una buena gama de colores, puede ser tomarle foto a algo muy colorido, como esto:
+Una forma muy buena de que está tomando una buena gama de colores, puede ser tomarle foto a algo muy colorido, como esto: 
 
-<>
-
-Eso no es todo, yo he podido llegar hasta aquí, pero, estoy seguro que se puede mejorar de muchas maneras, hay muchas aplicaciones para esto, y eso, eso te lo dejo a tí, espero que busques la manera de seguir mejorando esta cámara y de darle alguna utilidad más que la de tomar fotos.
+![32](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Implementacion/32.jpg)
 
 # Conclusiones
