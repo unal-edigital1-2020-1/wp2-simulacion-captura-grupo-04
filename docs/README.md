@@ -861,25 +861,28 @@ Ya sabiendo que la cámara está bien conectada, y a qué puerto está conectada
 
 Pero, de nuevo, no nos afanemos, si intentamos sacar la foto apenas a la primera configurada, sin siquiera saber qué o cómo estamos configurando, saldrán cosas como esta:
 
-<>
-
-<>
+![24](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Implementacion/24.jpeg)
+![25](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Implementacion/25.jpg)
 
 Si, son fotos, pero muy horribles, y no es la idea. Así que prestar atención, antes de continuar, apártate de la Nexys, el Arduino y la cámara, sé que quieres moverle cosas y sacar unas buenas fotos, pero espera, primero debes leer y entender muy bien qué hace cada puerto de comunicación dentro de la cámara, tomate tu tiempo para leer esto detenidamente, no hay afán: http://web.mit.edu/6.111/www/f2016/tools/OV7670_2006.pdf 
 
 ¿Ya esta?, perfecto, ahora que eres un ducho en lo que se refiere a entender cómo está funcionando la cámara, podemos pasar a configurarla. Primero, hagamos un testeo de su funcionamiento, sin tomar fotos ni nada. Como bien sabes, hay un modo para ello, tú tranquilo, puedes usar el siguiente programa para tu arduino: https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/src/images/OV7670_test.ino Acto seguido, con la Nexys funcionando, mostrando las barras horizontales, conecta el Arduino al PC, y sube ese código, debería aparecer algo como esto:
 
-<>
+![26](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Implementacion/26.jpeg)
 
 En caso que te salga algo como esto:
 
-<>
+![27](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Implementacion/27.jpg)
 
 Es porque estás contando mal el número de píxeles que hay por frame, de nuevo, en el móduo de buffer_ram_dp (es bastante problemático, a decir verdad) verifica esto en dicho módulo, recuerda que, si es 160x120 la resolución que estamos usando, eso nos da 19200 píxeles por frame, pero recuerda empezar en cero, así que el tope es 19199.
 
-<>
+![28](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Implementacion/28.png)
 
-Si, por el contrario, te sale con los colores un poco raros, distintos a los del ejemplo de arriba, puede ser por dos cosas, bien porque estás escribiendo mal el registro en el módulo de captura de datos (cam_read.v) o porque estamos usando formatos distintos en la cámara y en el HDL, cualquiera que sea, es sólo hacerlos coincidir y ya está.
+Si, por el contrario, te sale con los colores un poco raros, distintos a los del ejemplo de arriba como se muestra a continuacion:
+
+![29](https://github.com/unal-edigital1-2020-1/wp2-simulacion-captura-grupo-04/blob/master/docs/Imagenes/Implementacion/29.jpeg)
+
+Puede ser por dos cosas, bien porque estás escribiendo mal el registro en el módulo de captura de datos (cam_read.v) o porque estamos usando formatos distintos en la cámara y en el HDL, cualquiera que sea, es sólo hacerlos coincidir y ya está.
 
 ## Captura de imagen
 
